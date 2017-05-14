@@ -1,0 +1,73 @@
+import groovy.json.JsonSlurper
+
+plugins {
+    id "me.tatarka.retrolambda" version "3.5.0"
+}
+apply plugin: "com.android.application"
+apply plugin: "com.frogermcs.androiddevmetrics"
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.example.liza.superdiary"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+}
+
+dependencies {
+    /*The definitions of the <rootProject.*> are placed in ~.dependencies.gradle*/
+    annotationProcessor rootProject.moxyCompiler
+    annotationProcessor rootProject.daggerCompiler
+    compile(
+            /*core*/
+            rootProject.rxJava,
+            rootProject.rxAndroid,
+            rootProject.rxJavaAdapter,
+            /*MVP*/
+            rootProject.moxy,
+            rootProject.moxyAndroid,
+            rootProject.moxyCompiler,
+            rootProject.moxyAppcompat,
+            /*dependency injection*/
+            rootProject.dagger,
+            /*view*/
+            rootProject.conductor,
+            rootProject.conductorSupport,
+            rootProject.conductorRxLifecycle,
+            /*database*/
+            rootProject.greendao,
+            /*design*/
+            rootProject.design,
+            rootProject.support,
+            rootProject.appcompat,
+            rootProject.constraint,
+            rootProject.recyclerview,
+    )
+    testCompile rootProject.junit
+    androidTestCompile(rootProject.espresso, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}
