@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">SuperDiary</string>
+    <!-- Strings related to login -->
+    <string name="login">Логин</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in">Вход</string>
+    <string name="error_invalid_email">Логин неверный</string>
+    <string name="error_invalid_password">Пароль слишком короткий</string>
+    <string name="error_incorrect_password">Пароль неверный</string>
+    <string name="error_field_required">Заполните необходимые поля</string>
+    <string name="action_register">Регистрация</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Name">Имя</string>
+    <string name="Midname">Отчество</string>
+    <string name="Surname">Фамилия</string>
+    <string name="email">Электронная почта</string>
+    <string name="birthday">День рождения</string>
+    <string name="user">Пользователь</string>
+    <string name="successfullyCreated">успешно создан</string>
+    <string name="writeError">Логин занят</string>
 </resources>

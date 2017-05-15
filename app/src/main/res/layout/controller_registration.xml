@@ -1,0 +1,148 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragmentRegister_scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:scrollbarStyle="outsideOverlay">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+
+                android:id="@+id/fragmentRegister_tvLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/login"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionNext" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/fragmentRegister_tvPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+
+                android:id="@+id/fragmentRegister_tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:imeOptions="actionNext" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+
+                android:id="@+id/fragmentRegister_tvMidname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Midname"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:imeOptions="actionNext" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+
+                android:id="@+id/fragmentRegister_tvLastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Surname"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:imeOptions="actionNext" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+
+                android:id="@+id/fragmentRegister_tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:imeOptions="actionNext" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+
+                android:id="@+id/fragmentRegister_tvBirthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/birthday"
+                android:inputType="date"
+                android:maxLines="1"
+                android:imeActionLabel="@string/action_register"
+                android:imeOptions="actionUnspecified" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/fragmentRegister_btnRegister"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Зарегистрироваться"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/fragmentRegister_btnBack"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Назад"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>

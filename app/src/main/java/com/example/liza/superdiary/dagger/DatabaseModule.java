@@ -2,13 +2,14 @@ package com.example.liza.superdiary.dagger;
 
 import android.support.annotation.NonNull;
 
+import com.example.liza.superdiary.database.DatabaseRepo;
+import com.example.liza.superdiary.database.DatabaseRepoImpl;
 import com.example.liza.superdiary.database.models.DaoSession;
 import com.example.liza.superdiary.database.models.NoteDao;
 import com.example.liza.superdiary.database.models.NotificationDao;
 import com.example.liza.superdiary.database.models.TaskDao;
 import com.example.liza.superdiary.database.models.UserDao;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,9 +23,14 @@ import dagger.Provides;
 public class DatabaseModule {
     private final DaoSession daoSession;
 
-    @Inject
     public DatabaseModule(@NonNull final DaoSession daoSession) {
         this.daoSession = daoSession;
+    }
+
+    @Provides
+    @Singleton
+    public DatabaseRepo provideDatabaseRepo() {
+        return new DatabaseRepoImpl();
     }
 
     @Provides

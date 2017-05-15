@@ -1,16 +1,14 @@
 package com.example.liza.superdiary.database.models;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
-import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
-
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
 
 /**
  * Created by User on 14.05.2017.
@@ -72,6 +70,11 @@ public final class User {
 
     @Generated(hash = 586692638)
     public User() {
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public Long getId() {

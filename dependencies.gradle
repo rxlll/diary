@@ -1,5 +1,5 @@
 ext {
-    supportV = "25.1.1"
+    supportV = "24.2.1"
     retrofitV = "2.2.0"
     okhttpV = "3.4.1"
     rxjava = "2.0.1"

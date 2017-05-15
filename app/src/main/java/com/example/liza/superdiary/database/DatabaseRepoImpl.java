@@ -13,6 +13,7 @@ import com.example.liza.superdiary.database.models.UserDao;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
 
 /**
  * Created by User on 14.05.2017.
@@ -36,66 +37,71 @@ public class DatabaseRepoImpl implements DatabaseRepo {
         App.appComponent.inject(this);
     }
 
-    public void addUser(User user) {
-        Completable.fromAction(() -> userDao.insert(user));
+    public Completable addUser(User user) {
+        return Completable.fromAction(() -> userDao.insert(user));
     }
 
     @Override
-    public void deleteUser(User user) {
-        Completable.fromAction(() -> userDao.delete(user));
+    public Single<Boolean> contains(User user) {
+        return Single.fromCallable(() -> userDao.hasKey(user));
     }
 
     @Override
-    public void setConfirmed(User user) {
-        Completable.fromAction(() -> {
+    public Completable deleteUser(User user) {
+        return Completable.fromAction(() -> userDao.delete(user));
+    }
+
+    @Override
+    public Completable setConfirmed(User user) {
+        return Completable.fromAction(() -> {
             user.setIsConfirmed(true);
             userDao.update(user);
         });
     }
 
     @Override
-    public void addNote(User user, Note note) {
-        Completable.fromAction(() -> {
+    public Completable addNote(User user, Note note) {
+        return Completable.fromAction(() -> {
             user.getNotes().add(note);
             userDao.update(user);
         });
     }
 
     @Override
-    public void deleteNote(User user, Note note) {
-        Completable.fromAction(() -> {
+    public Completable deleteNote(User user, Note note) {
+        return Completable.fromAction(() -> {
             user.getNotes().remove(note);
             userDao.update(user);
         });
     }
 
     @Override
-    public void addNotification(User user, Notification notification) {
-        Completable.fromAction(() -> {
+    public Completable addNotification(User user, Notification notification) {
+        return Completable.fromAction(() -> {
             user.getNotifications().add(notification);
             userDao.update(user);
         });
     }
 
     @Override
-    public void deleteNotification(User user, Notification notification) {
-        Completable.fromAction(() -> {
+    public Completable deleteNotification(User user, Notification notification) {
+        return Completable.fromAction(() -> {
             user.getNotifications().remove(notification);
             userDao.update(user);
         });
     }
 
     @Override
-    public void addTask(User user, Task task) {
-        Completable.fromAction(() -> {
+    public Completable addTask(User user, Task task) {
+        return Completable.fromAction(() -> {
             user.getTasks().add(task);
             userDao.update(user);
         });
     }
 
     @Override
-    public void deleteTask(User user, Task task) {
-        Completable.fromAction(() -> {
+    public Completable deleteTask(User user, Task task) {
+        return Completable.fromAction(() -> {
             user.getTasks().remove(task);
             userDao.update(user);
         });

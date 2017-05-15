@@ -5,26 +5,31 @@ import com.example.liza.superdiary.database.models.Notification;
 import com.example.liza.superdiary.database.models.Task;
 import com.example.liza.superdiary.database.models.User;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+
 /**
  * Created by User on 14.05.2017.
  */
 
 public interface DatabaseRepo {
-    void addUser(User user);
+    Completable addUser(User user);
 
-    void deleteUser(User user);
+    Single<Boolean> contains(User user);
 
-    void setConfirmed(User user);
+    Completable deleteUser(User user);
 
-    void addNote(User user, Note note);
+    Completable setConfirmed(User user);
 
-    void deleteNote(User user, Note note);
+    Completable addNote(User user, Note note);
 
-    void addNotification(User user, Notification notification);
+    Completable deleteNote(User user, Note note);
 
-    void deleteNotification(User user, Notification notification);
+    Completable addNotification(User user, Notification notification);
 
-    void addTask(User user, Task task);
+    Completable deleteNotification(User user, Notification notification);
 
-    void deleteTask(User user, Task task);
+    Completable addTask(User user, Task task);
+
+    Completable deleteTask(User user, Task task);
 }
