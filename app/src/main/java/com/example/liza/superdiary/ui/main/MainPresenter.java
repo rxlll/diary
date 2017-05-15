@@ -30,7 +30,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
         preferencesRepo.getCurrentLogin()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((currentLogin) -> onLogin(currentLogin));
+                .subscribe(this::onLogin);
     }
 
     private void onLogin(String currentLogin) {

@@ -2,7 +2,6 @@ plugins {
     id "me.tatarka.retrolambda" version "3.5.0"
 }
 apply plugin: "com.android.application"
-apply plugin: "com.frogermcs.androiddevmetrics"
 apply plugin: 'org.greenrobot.greendao'
 
 android {
@@ -60,7 +59,7 @@ dependencies {
             rootProject.design,
             rootProject.support,
             rootProject.appcompat,
-            rootProject.constraint,
+//            rootProject.constraint,
             rootProject.recyclerview,
     )
     testCompile rootProject.junit

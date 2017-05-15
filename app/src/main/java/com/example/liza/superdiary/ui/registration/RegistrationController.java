@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.example.liza.superdiary.R;
 import com.example.liza.superdiary.ui.main.MoxyController;
 
 /**
@@ -19,7 +20,8 @@ public class RegistrationController extends MoxyController implements Registrati
 
     @Override
     protected View inflateView(LayoutInflater inflater, ViewGroup container) {
-        return null;
+        return inflater.inflate(R.layout.controller_registration, container, false);
+
     }
 
     @Override

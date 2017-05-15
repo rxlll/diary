@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.liza.superdiary.dagger.AppComponent;
 import com.example.liza.superdiary.dagger.DaggerAppComponent;
 import com.example.liza.superdiary.dagger.DatabaseModule;
+import com.example.liza.superdiary.dagger.PreferencesModule;
 import com.example.liza.superdiary.database.models.DaoMaster;
 import com.example.liza.superdiary.database.models.DaoSession;
 
@@ -23,6 +24,7 @@ public class App extends Application {
         super.onCreate();
         appComponent = DaggerAppComponent.builder()
                 .databaseModule(new DatabaseModule(getDaoSession()))
+                .preferencesModule(new PreferencesModule(this))
                 .build();
     }
 
