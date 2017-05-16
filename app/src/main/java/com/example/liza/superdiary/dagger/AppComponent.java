@@ -4,6 +4,7 @@ import com.example.liza.superdiary.database.DatabaseRepoImpl;
 import com.example.liza.superdiary.ui.admin.AdminPresenter;
 import com.example.liza.superdiary.ui.login.LoginPresenter;
 import com.example.liza.superdiary.ui.main.MainPresenter;
+import com.example.liza.superdiary.ui.registration.RegistrationPresenter;
 import com.example.liza.superdiary.ui.user.UserPresenter;
 
 import javax.inject.Singleton;
@@ -26,4 +27,6 @@ public interface AppComponent {
     void inject(MainPresenter mainPresenter);
 
     void inject(AdminPresenter adminPresenter);
+
+    void inject(RegistrationPresenter registrationPresenter);
 }

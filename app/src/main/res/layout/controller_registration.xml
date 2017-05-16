@@ -19,13 +19,13 @@
 
             <AutoCompleteTextView
 
-                android:id="@+id/fragmentRegister_tvLogin"
+                android:id="@+id/editTextLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login"
+                android:imeOptions="actionNext"
                 android:inputType="text"
-                android:maxLines="1"
-                android:imeOptions="actionNext" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/fragmentRegister_tvPassword"
+                android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
@@ -51,13 +51,13 @@
 
             <AutoCompleteTextView
 
-                android:id="@+id/fragmentRegister_tvName"
+                android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/Name"
+                android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                android:maxLines="1"
-                android:imeOptions="actionNext" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -67,13 +67,13 @@
 
             <AutoCompleteTextView
 
-                android:id="@+id/fragmentRegister_tvMidname"
+                android:id="@+id/editTextPatronymic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/Midname"
+                android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                android:maxLines="1"
-                android:imeOptions="actionNext" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -83,13 +83,13 @@
 
             <AutoCompleteTextView
 
-                android:id="@+id/fragmentRegister_tvLastname"
+                android:id="@+id/editTextSurname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/Surname"
+                android:imeOptions="actionNext"
                 android:inputType="textPersonName"
-                android:maxLines="1"
-                android:imeOptions="actionNext" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -99,13 +99,13 @@
 
             <AutoCompleteTextView
 
-                android:id="@+id/fragmentRegister_tvEmail"
+                android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
+                android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:imeOptions="actionNext" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -115,20 +115,20 @@
 
             <AutoCompleteTextView
 
-                android:id="@+id/fragmentRegister_tvBirthday"
+                android:id="@+id/editTextBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/birthday"
-                android:inputType="date"
-                android:maxLines="1"
                 android:imeActionLabel="@string/action_register"
-                android:imeOptions="actionUnspecified" />
+                android:imeOptions="actionUnspecified"
+                android:inputType="date"
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
 
         <Button
-            android:id="@+id/fragmentRegister_btnRegister"
+            android:id="@+id/buttonRegister"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/fragmentRegister_btnBack"
+            android:id="@+id/buttonBack"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

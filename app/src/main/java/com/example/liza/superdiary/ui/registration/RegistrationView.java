@@ -10,5 +10,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 @StateStrategyType(SkipStrategy.class)
 public interface RegistrationView extends MvpView {
-    void showUserController();
+    void showStartController();
+
+    void showToast(String s);
 }

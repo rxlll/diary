@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.liza.superdiary.App;
 import com.example.liza.superdiary.database.DatabaseRepo;
-import com.example.liza.superdiary.database.models.User;
 import com.example.liza.superdiary.preferences.PreferencesRepo;
 
 import javax.inject.Inject;
@@ -31,12 +30,15 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
         App.appComponent.inject(this);
     }
 
-    public void onButtonLoginClick(String login, String password) {
-        databaseRepo.contains(new User(login, password))
+    public void login(String login, String password) {
+        databaseRepo.contains(login, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter(Boolean::booleanValue)
-                .doOnEvent((b, t) -> preferencesRepo.putCurrentLogin(login))
+                .filter(b -> {
+                    if (!b) getViewState().showToast("Логин с таким паролем не найден.");
+                    return b;
+                })
+                .doOnEvent((b, t) -> preferencesRepo.putCurrentLogin(login).subscribe())
                 .subscribe(b -> getViewState().showUserController());
     }
 }

@@ -30,4 +30,10 @@ public class PreferencesRepoImpl implements PreferencesRepo {
     public Single<String> getCurrentLogin() {
         return Single.fromCallable(() -> preferences.getString(KEY_CURRENT_LOGIN, ""));
     }
+
+    @Override
+    public Completable clear() {
+        return Completable.fromAction(() -> preferences.edit().clear().apply());
+
+    }
 }

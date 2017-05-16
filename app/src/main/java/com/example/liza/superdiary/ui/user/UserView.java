@@ -10,4 +10,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 @StateStrategyType(SkipStrategy.class)
 public interface UserView extends MvpView {
+    void showStartController();
 }

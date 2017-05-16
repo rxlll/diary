@@ -38,12 +38,22 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     }
 
     public Completable addUser(User user) {
-        return Completable.fromAction(() -> userDao.insert(user));
+        return Completable.fromAction(() -> {
+            if (userDao.queryBuilder()
+                    .where(UserDao.Properties.Login.in(user.getLogin()))
+                    .count() == 0) userDao.insert(user);
+            else throw new Exception("Логин \"" + user.getLogin() + "\" уже зарегистрирован.");
+        });
     }
 
     @Override
-    public Single<Boolean> contains(User user) {
-        return Single.fromCallable(() -> userDao.hasKey(user));
+    public Single<Boolean> contains(String login, String password) {
+        return Single.fromCallable(() ->
+            userDao.queryBuilder()
+                    .where(UserDao.Properties.Login.in(login))
+                    .where(UserDao.Properties.Password.in(password))
+                    .count() > 0
+        );
     }
 
     @Override

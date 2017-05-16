@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bluelinelabs.conductor.RouterTransaction;
@@ -23,10 +23,6 @@ public class LoginController extends MoxyController implements LoginView {
     @InjectPresenter
     public LoginPresenter loginPresenter;
 
-    private Button buttonLogin;
-    private EditText editTextLogin;
-    private EditText editTextPassword;
-
     @Override
     protected View inflateView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.controller_login, container, false);
@@ -35,17 +31,20 @@ public class LoginController extends MoxyController implements LoginView {
     @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
-        buttonLogin = (Button) view.findViewById(R.id.buttonLogin);
-        editTextLogin = (EditText) view.findViewById(R.id.editTextLogin);
-        editTextPassword = (EditText) view.findViewById(R.id.editTextPassword);
-        buttonLogin.setOnClickListener(view1 -> loginPresenter.onButtonLoginClick(
-                editTextLogin.getText().toString(), editTextPassword.getText().toString()));
+        view.findViewById(R.id.buttonLogin).setOnClickListener(view1 -> loginPresenter.login(
+                ((EditText) view.findViewById(R.id.editTextLogin)).getText().toString(),
+                ((EditText) view.findViewById(R.id.editTextPassword)).getText().toString()));
     }
 
     @Override
     public void showUserController() {
-        getRouter().pushController(RouterTransaction.with(new UserController())
+        getRouter().setRoot(RouterTransaction.with(new UserController())
                 .pushChangeHandler(new VerticalChangeHandler())
                 .popChangeHandler(new VerticalChangeHandler()));
+    }
+
+    @Override
+    public void showToast(String s) {
+        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
     }
 }

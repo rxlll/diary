@@ -27,10 +27,8 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         container = findViewById(R.id.container);
         router = Conductor.attachRouter(this, (ViewGroup) container, savedInstanceState);
-
     }
 
     @Override

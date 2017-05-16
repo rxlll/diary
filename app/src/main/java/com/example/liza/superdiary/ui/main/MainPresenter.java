@@ -30,10 +30,10 @@ public class MainPresenter extends MvpPresenter<MainView> {
         preferencesRepo.getCurrentLogin()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onLogin);
+                .subscribe(this::onLaunch);
     }
 
-    private void onLogin(String currentLogin) {
+    private void onLaunch(String currentLogin) {
         switch (currentLogin) {
             case ADMIN:
                 getViewState().showAdminController();

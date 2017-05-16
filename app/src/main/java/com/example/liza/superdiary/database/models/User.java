@@ -68,6 +68,17 @@ public final class User {
         this.isConfirmed = isConfirmed;
     }
 
+    public User(String login, String password, String name, String lastname,
+                String patronymic, String email, String birthday) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.lastname = lastname;
+        this.patronymic = patronymic;
+        this.email = email;
+        this.birthday = birthday;
+    }
+
     @Generated(hash = 586692638)
     public User() {
     }

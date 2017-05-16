@@ -9,5 +9,8 @@ import io.reactivex.Single;
 
 public interface PreferencesRepo {
     Completable putCurrentLogin(String login);
+
     Single<String> getCurrentLogin();
+
+    Completable clear();
 }
