@@ -2,11 +2,8 @@ package com.example.liza.superdiary.database;
 
 import com.example.liza.superdiary.App;
 import com.example.liza.superdiary.database.models.Note;
-import com.example.liza.superdiary.database.models.NoteDao;
 import com.example.liza.superdiary.database.models.Notification;
-import com.example.liza.superdiary.database.models.NotificationDao;
 import com.example.liza.superdiary.database.models.Task;
-import com.example.liza.superdiary.database.models.TaskDao;
 import com.example.liza.superdiary.database.models.User;
 import com.example.liza.superdiary.database.models.UserDao;
 
@@ -20,15 +17,6 @@ import io.reactivex.Single;
  */
 
 public class DatabaseRepoImpl implements DatabaseRepo {
-
-    @Inject
-    NoteDao noteDao;
-
-    @Inject
-    NotificationDao notificationDao;
-
-    @Inject
-    TaskDao taskDao;
 
     @Inject
     UserDao userDao;
@@ -47,12 +35,20 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     }
 
     @Override
+    public Single<User> getUser(String login) {
+        return Single.fromCallable(() -> userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique()
+        );
+    }
+
+    @Override
     public Single<Boolean> contains(String login, String password) {
         return Single.fromCallable(() ->
-            userDao.queryBuilder()
-                    .where(UserDao.Properties.Login.in(login))
-                    .where(UserDao.Properties.Password.in(password))
-                    .count() > 0
+                userDao.queryBuilder()
+                        .where(UserDao.Properties.Login.in(login))
+                        .where(UserDao.Properties.Password.in(password))
+                        .count() > 0
         );
     }
 

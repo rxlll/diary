@@ -18,12 +18,14 @@ public final class Notification {
     private Long id;
     private String login;
     private String text;
+    private String time;
 
-    @Generated(hash = 1216108097)
-    public Notification(Long id, String login, String text) {
+    @Generated(hash = 1028598991)
+    public Notification(Long id, String login, String text, String time) {
         this.id = id;
         this.login = login;
         this.text = text;
+        this.time = time;
     }
 
     @Generated(hash = 1855225820)
@@ -52,5 +54,13 @@ public final class Notification {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

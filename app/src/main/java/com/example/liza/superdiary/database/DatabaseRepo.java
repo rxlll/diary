@@ -15,6 +15,8 @@ import io.reactivex.Single;
 public interface DatabaseRepo {
     Completable addUser(User user);
 
+    Single<User> getUser(String login);
+
     Single<Boolean> contains(String login, String password);
 
     Completable deleteUser(User user);
@@ -23,13 +25,13 @@ public interface DatabaseRepo {
 
     Completable addNote(User user, Note note);
 
-    Completable deleteNote(User user, Note note);
-
     Completable addNotification(User user, Notification notification);
 
-    Completable deleteNotification(User user, Notification notification);
-
     Completable addTask(User user, Task task);
+
+    Completable deleteNote(User user, Note note);
+
+    Completable deleteNotification(User user, Notification notification);
 
     Completable deleteTask(User user, Task task);
 

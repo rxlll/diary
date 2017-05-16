@@ -4,6 +4,7 @@ import com.example.liza.superdiary.database.DatabaseRepoImpl;
 import com.example.liza.superdiary.ui.admin.AdminPresenter;
 import com.example.liza.superdiary.ui.login.LoginPresenter;
 import com.example.liza.superdiary.ui.main.MainPresenter;
+import com.example.liza.superdiary.ui.recycler.RecyclerPresenter;
 import com.example.liza.superdiary.ui.registration.RegistrationPresenter;
 import com.example.liza.superdiary.ui.user.UserPresenter;
 
@@ -29,4 +30,6 @@ public interface AppComponent {
     void inject(AdminPresenter adminPresenter);
 
     void inject(RegistrationPresenter registrationPresenter);
+
+    void inject(RecyclerPresenter recyclerPresenter);
 }
