@@ -1,4 +1,4 @@
-package com.example.liza.superdiary.ui.recycler.adapters;
+package com.example.liza.superdiary.ui.list.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,21 +16,21 @@ import java.util.List;
  * Created by User on 17.05.2017.
  */
 
-public class RecyclerNoteAdapter extends RecyclerView.Adapter<RecyclerNoteAdapter.RecyclerViewHolder> {
+public class RecyclerNotesAdapter extends RecyclerView.Adapter<RecyclerNotesAdapter.RecyclerViewHolder> {
     private List<Note> notes;
     private OnNoteClickListener onNoteClickListener;
     private OnDeleteClickListener onDeleteClickListener;
 
-    public RecyclerNoteAdapter(List<Note> notes) {
+    public RecyclerNotesAdapter(List<Note> notes) {
         this.notes = notes;
     }
 
-    public RecyclerNoteAdapter setOnNoteClickListener(OnNoteClickListener onNoteClickListener) {
+    public RecyclerNotesAdapter setOnNoteClickListener(OnNoteClickListener onNoteClickListener) {
         this.onNoteClickListener = onNoteClickListener;
         return this;
     }
 
-    public RecyclerNoteAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+    public RecyclerNotesAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
         return this;
     }
@@ -42,7 +42,7 @@ public class RecyclerNoteAdapter extends RecyclerView.Adapter<RecyclerNoteAdapte
     }
 
     @Override
-    public void onBindViewHolder(RecyclerNoteAdapter.RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerNotesAdapter.RecyclerViewHolder holder, int position) {
         holder.textViewPreview.setText(notes.get(position).getText());
         holder.itemView.setOnClickListener(view ->
                 onNoteClickListener.onNoteClick(notes.get(position)));

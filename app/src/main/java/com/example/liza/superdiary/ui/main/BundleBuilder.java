@@ -1,4 +1,4 @@
-package com.example.liza.superdiary.ui.user;
+package com.example.liza.superdiary.ui.main;
 
 import android.os.Bundle;
 import android.os.Parcelable;

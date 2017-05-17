@@ -2,9 +2,10 @@ package com.example.liza.superdiary.dagger;
 
 import com.example.liza.superdiary.database.DatabaseRepoImpl;
 import com.example.liza.superdiary.ui.admin.AdminPresenter;
+import com.example.liza.superdiary.ui.details.DetailsPresenter;
 import com.example.liza.superdiary.ui.login.LoginPresenter;
 import com.example.liza.superdiary.ui.main.MainPresenter;
-import com.example.liza.superdiary.ui.recycler.RecyclerPresenter;
+import com.example.liza.superdiary.ui.list.ListPresenter;
 import com.example.liza.superdiary.ui.registration.RegistrationPresenter;
 import com.example.liza.superdiary.ui.user.UserPresenter;
 
@@ -31,5 +32,7 @@ public interface AppComponent {
 
     void inject(RegistrationPresenter registrationPresenter);
 
-    void inject(RecyclerPresenter recyclerPresenter);
+    void inject(ListPresenter listPresenter);
+
+    void inject(DetailsPresenter detailsPresenter);
 }

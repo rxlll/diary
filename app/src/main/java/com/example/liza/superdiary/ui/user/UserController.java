@@ -10,12 +10,12 @@ import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler;
 import com.example.liza.superdiary.R;
 import com.example.liza.superdiary.ui.main.MoxyController;
-import com.example.liza.superdiary.ui.recycler.RecyclerController;
+import com.example.liza.superdiary.ui.list.ListController;
 import com.example.liza.superdiary.ui.start.StartController;
 
-import static com.example.liza.superdiary.ui.recycler.RecyclerController.NOTES;
-import static com.example.liza.superdiary.ui.recycler.RecyclerController.NOTIFICATIONS;
-import static com.example.liza.superdiary.ui.recycler.RecyclerController.TASKS;
+import static com.example.liza.superdiary.ui.list.ListController.NOTES;
+import static com.example.liza.superdiary.ui.list.ListController.NOTIFICATIONS;
+import static com.example.liza.superdiary.ui.list.ListController.TASKS;
 
 /**
  * Created by User on 15.05.2017.
@@ -41,7 +41,7 @@ public class UserController extends MoxyController implements UserView {
     }
 
     private void showRecyclerController(int type) {
-        getRouter().pushController(RouterTransaction.with(new RecyclerController(type))
+        getRouter().pushController(RouterTransaction.with(new ListController(type))
                 .pushChangeHandler(new VerticalChangeHandler())
                 .popChangeHandler(new VerticalChangeHandler()));
     }
