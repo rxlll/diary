@@ -89,25 +89,12 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     }
 
     @Override
-    public Completable deleteNote(User user, Note note) {
-        return Completable.fromAction(() -> {
-            user.getNotes().remove(note);
-            userDao.update(user);
-        });
-    }
-
-    @Override
     public Completable addNotification(User user, Notification notification) {
         return Completable.fromAction(() -> {
+            notification.setLogin(user.getLogin());
+            notification.setUserId(user.getId());
+            notification.setId(notificationDao.insert(notification));
             user.getNotifications().add(notification);
-            userDao.update(user);
-        });
-    }
-
-    @Override
-    public Completable deleteNotification(User user, Notification notification) {
-        return Completable.fromAction(() -> {
-            user.getNotifications().remove(notification);
             userDao.update(user);
         });
     }
@@ -115,16 +102,26 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     @Override
     public Completable addTask(User user, Task task) {
         return Completable.fromAction(() -> {
+            task.setLogin(user.getLogin());
+            task.setUserId(user.getId());
+            task.setId(taskDao.insert(task));
             user.getTasks().add(task);
             userDao.update(user);
         });
     }
 
     @Override
+    public Completable deleteNote(User user, Note note) {
+        return Completable.fromAction(() -> noteDao.delete(note));
+    }
+
+    @Override
+    public Completable deleteNotification(User user, Notification notification) {
+        return Completable.fromAction(() -> notificationDao.delete(notification));
+    }
+
+    @Override
     public Completable deleteTask(User user, Task task) {
-        return Completable.fromAction(() -> {
-            user.getTasks().remove(task);
-            userDao.update(user);
-        });
+        return Completable.fromAction(() -> taskDao.delete(task));
     }
 }

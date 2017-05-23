@@ -53,7 +53,7 @@ public class ListController extends MoxyController implements ListView {
 
     @Override
     protected View inflateView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.controller_recycler, container, false);
+        return inflater.inflate(R.layout.controller_list, container, false);
     }
 
     @Override
@@ -62,12 +62,14 @@ public class ListController extends MoxyController implements ListView {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         int type = getArgs().getInt(KEY_TYPE);
 
         listPresenter.onType(type);
         view.findViewById(R.id.fab).setOnClickListener(view1 ->
-                getRouter().pushController(RouterTransaction.with(new DetailsController(type))
+                getRouter().pushController(RouterTransaction
+                        .with(new DetailsController(type))
                         .pushChangeHandler(new HorizontalChangeHandler(150))
                         .popChangeHandler(new HorizontalChangeHandler(150))));
     }
@@ -80,12 +82,14 @@ public class ListController extends MoxyController implements ListView {
         recyclerView.setHasFixedSize(true);
         ((NotesRecyclerAdapter) recyclerAdapter)
                 .setOnNoteClickListener(note ->
-                        getRouter().pushController(RouterTransaction.with(new DetailsController(note))
+                        getRouter().pushController(RouterTransaction
+                                .with(new DetailsController(note))
                                 .pushChangeHandler(new HorizontalChangeHandler())
                                 .popChangeHandler(new HorizontalChangeHandler())));
         ((NotesRecyclerAdapter) recyclerAdapter)
                 .setOnDeleteClickListener((note, position) -> {
-                    ((NotesRecyclerAdapter) recyclerAdapter).deleteFromRecycler(note, position);
+                    ((NotesRecyclerAdapter) recyclerAdapter)
+                            .deleteFromRecycler(note, position);
                     listPresenter.deleteFromDatabase(note);
                 });
     }
@@ -99,12 +103,14 @@ public class ListController extends MoxyController implements ListView {
         recyclerView.setHasFixedSize(true);
         ((NotificationsRecyclerAdapter) recyclerAdapter)
                 .setOnNotificationClickListener(notification ->
-                        getRouter().pushController(RouterTransaction.with(new DetailsController(notification))
+                        getRouter().pushController(RouterTransaction
+                                .with(new DetailsController(notification))
                                 .pushChangeHandler(new HorizontalChangeHandler())
                                 .popChangeHandler(new HorizontalChangeHandler())));
         ((NotificationsRecyclerAdapter) recyclerAdapter)
                 .setOnDeleteClickListener((notification, position) -> {
-                    ((NotificationsRecyclerAdapter) recyclerAdapter).deleteFromRecycler(notification, position);
+                    ((NotificationsRecyclerAdapter) recyclerAdapter)
+                            .deleteFromRecycler(notification, position);
                     listPresenter.deleteFromDatabase(notification);
                 });
     }
@@ -117,7 +123,8 @@ public class ListController extends MoxyController implements ListView {
         recyclerView.setHasFixedSize(true);
         ((TasksRecyclerAdapter) recyclerAdapter)
                 .setOnTaskClickListener(task ->
-                        getRouter().pushController(RouterTransaction.with(new DetailsController(task))
+                        getRouter().pushController(RouterTransaction
+                                .with(new DetailsController(task))
                                 .pushChangeHandler(new HorizontalChangeHandler())
                                 .popChangeHandler(new HorizontalChangeHandler())));
         ((TasksRecyclerAdapter) recyclerAdapter)
@@ -130,16 +137,15 @@ public class ListController extends MoxyController implements ListView {
     @Override
     public void showAddedNote(Note note) {
         recyclerAdapter.notifyItemInserted(0);
-//        ((NotesRecyclerAdapter) recyclerAdapter).add(note);
     }
 
     @Override
     public void showAddedNotification(Notification notification) {
-        ((NotificationsRecyclerAdapter) recyclerAdapter).addNotification(notification);
+        recyclerAdapter.notifyItemInserted(0);
     }
 
     @Override
     public void showAddedTask(Task task) {
-        ((TasksRecyclerAdapter) recyclerAdapter).addTask(task);
+        recyclerAdapter.notifyItemInserted(0);
     }
 }

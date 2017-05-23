@@ -60,11 +60,6 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
         return notifications.size();
     }
 
-    public void addNotification(Notification notification) {
-        notifications.add(0, notification);
-        notifyItemInserted(0);
-    }
-
     public void deleteFromRecycler(Notification notification, int position) {
         notifications.remove(notification);
         notifyItemRemoved(position);

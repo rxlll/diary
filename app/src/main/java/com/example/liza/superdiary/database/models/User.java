@@ -37,11 +37,11 @@ public final class User {
     @OrderBy("id ASC")
     private List<Note> notes;
 
-    @ToMany(referencedJoinProperty = "id")
+    @ToMany(referencedJoinProperty = "userId")
     @OrderBy("id ASC")
     private List<Notification> notifications;
 
-    @ToMany(referencedJoinProperty = "id")
+    @ToMany(referencedJoinProperty = "userId")
     @OrderBy("id ASC")
     private List<Task> tasks;
     /**

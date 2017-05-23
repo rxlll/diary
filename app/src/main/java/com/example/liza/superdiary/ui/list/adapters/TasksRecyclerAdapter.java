@@ -59,11 +59,6 @@ public class TasksRecyclerAdapter extends RecyclerView.Adapter<TasksRecyclerAdap
         return tasks.size();
     }
 
-    public void addTask(Task task) {
-        tasks.add(0, task);
-        notifyItemInserted(0);
-    }
-
     public void deleteFromRecycler(Task task, int position) {
         tasks.remove(task);
         notifyItemRemoved(position);

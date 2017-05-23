@@ -35,7 +35,7 @@ public class ListPresenter extends MvpPresenter<ListView> {
         App.appComponent.inject(this);
     }
 
-    public void onType(int type) {
+    void onType(int type) {
         preferencesRepo.getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
                 .subscribeOn(Schedulers.io())
@@ -56,15 +56,30 @@ public class ListPresenter extends MvpPresenter<ListView> {
 
     }
 
-    public void deleteFromDatabase(Note note) {
-
+    void deleteFromDatabase(Note note) {
+        preferencesRepo.getCurrentLogin()
+                .flatMap(login -> databaseRepo.getUser(login))
+                .flatMapCompletable(user -> databaseRepo.deleteNote(user, note))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    public void deleteFromDatabase(Notification notification) {
-
+    void deleteFromDatabase(Notification notification) {
+        preferencesRepo.getCurrentLogin()
+                .flatMap(login -> databaseRepo.getUser(login))
+                .flatMapCompletable(user -> databaseRepo.deleteNotification(user, notification))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
-    public void deleteFromDatabase(Task task) {
-
+    void deleteFromDatabase(Task task) {
+        preferencesRepo.getCurrentLogin()
+                .flatMap(login -> databaseRepo.getUser(login))
+                .flatMapCompletable(user -> databaseRepo.deleteTask(user, task))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 }
