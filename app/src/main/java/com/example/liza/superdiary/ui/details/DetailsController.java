@@ -2,6 +2,7 @@ package com.example.liza.superdiary.ui.details;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import static com.example.liza.superdiary.ui.list.ListController.TASKS;
  * Created by User on 17.05.2017.
  */
 
+@SuppressWarnings("ConstantConditions")
 public class DetailsController extends MoxyController implements DetailsView {
 
     @InjectPresenter
@@ -42,14 +44,14 @@ public class DetailsController extends MoxyController implements DetailsView {
                 .build());
     }
 
+    public DetailsController(Bundle args) {
+        super(args);
+    }
+
     public DetailsController(Note note) {
         this(new BundleBuilder(new Bundle())
                 .putParcelable(KEY_OBJECT, note)
                 .build());
-    }
-
-    public DetailsController(Bundle args) {
-        super(args);
     }
 
     public DetailsController(Notification notification) {
@@ -75,6 +77,20 @@ public class DetailsController extends MoxyController implements DetailsView {
         View buttonSave = view.findViewById(R.id.buttonSave);
         editTextDetailed = (EditText) view.findViewById(R.id.editTextDetailed);
         EditText editTextTime = (EditText) view.findViewById(R.id.editTextTime);
+
+        Parcelable parcelable = getArgs().getParcelable(KEY_OBJECT);
+        if (parcelable instanceof Note) {
+            editTextDetailed.setText(((Note)parcelable).getText());
+        }
+        if (parcelable instanceof Notification) {
+            editTextDetailed.setText(((Notification)parcelable).getText());
+            editTextTime.setText(((Notification)parcelable).getTime());
+            editTextTime.setVisibility(View.VISIBLE);
+        }
+        if (parcelable instanceof Task) {
+            editTextDetailed.setText(((Task)parcelable).getText());
+        }
+
         switch (getArgs().getInt(KEY_TYPE)) {
             case NOTES:
                 buttonSave.setOnClickListener(v -> detailsPresenter.saveNote(
@@ -128,7 +144,8 @@ public class DetailsController extends MoxyController implements DetailsView {
 
     private void hideKeyboard() {
         editTextDetailed.setInputType(0);
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editTextDetailed.getWindowToken(), 0);
     }
 }
