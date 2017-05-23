@@ -35,5 +35,9 @@ public interface DatabaseRepo {
 
     Completable deleteTask(User user, Task task);
 
+    Completable updateNote(User user, Note note);
 
+    Completable updateNotification(User user, Notification notification);
+
+    Completable updateTask(User user, Task task);
 }

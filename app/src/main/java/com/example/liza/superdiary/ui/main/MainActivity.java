@@ -20,6 +20,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @InjectPresenter
     public MainPresenter mainPresenter;
 
+    public static final int ANIM_LENGTH = 150;
     private Router router;
     private View container;
 
@@ -41,21 +42,21 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void showStartController() {
         router.setRoot(RouterTransaction.with(new StartController())
-                .pushChangeHandler(new FadeChangeHandler())
-                .popChangeHandler(new FadeChangeHandler()));
+                .pushChangeHandler(new FadeChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new FadeChangeHandler(ANIM_LENGTH)));
     }
 
     @Override
     public void showUserController() {
         router.setRoot(RouterTransaction.with(new UserController())
-                .pushChangeHandler(new FadeChangeHandler())
-                .popChangeHandler(new FadeChangeHandler()));
+                .pushChangeHandler(new FadeChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new FadeChangeHandler(ANIM_LENGTH)));
     }
 
     @Override
     public void showAdminController() {
         router.setRoot(RouterTransaction.with(new AdminController())
-                .pushChangeHandler(new FadeChangeHandler())
-                .popChangeHandler(new FadeChangeHandler()));
+                .pushChangeHandler(new FadeChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new FadeChangeHandler(ANIM_LENGTH)));
     }
 }

@@ -35,7 +35,7 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                 .getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
                 .flatMapCompletable(user -> databaseRepo.addNotification(user, new Notification(text, date)))
-                .doOnComplete(() -> getViewState().showListWithNotification(new Notification(text, date)))
+                .doOnComplete(() -> getViewState().showListController())
                 .subscribe();
     }
 
@@ -44,7 +44,7 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                 .getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
                 .flatMapCompletable(user -> databaseRepo.addNote(user, new Note(text)))
-                .doOnComplete(() -> getViewState().showListWithNote(new Note(text)))
+                .doOnComplete(() -> getViewState().showListController())
                 .subscribe();
     }
 
@@ -53,7 +53,38 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                 .getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
                 .flatMapCompletable(user -> databaseRepo.addTask(user, new Task(text)))
-                .doOnComplete(() -> getViewState().showListWithTask(new Task(text)))
+                .doOnComplete(() -> getViewState().showListController())
+                .subscribe();
+    }
+
+    public void updateNote(Note note, String text) {
+        note.setText(text);
+        preferencesRepo
+                .getCurrentLogin()
+                .flatMap(login -> databaseRepo.getUser(login))
+                .flatMapCompletable(user -> databaseRepo.updateNote(user, note))
+                .doOnComplete(() -> getViewState().showListController())
+                .subscribe();
+    }
+
+    public void updateNotification(Notification notification, String text, String time) {
+        notification.setText(text);
+        notification.setTime(time);
+        preferencesRepo
+                .getCurrentLogin()
+                .flatMap(login -> databaseRepo.getUser(login))
+                .flatMapCompletable(user -> databaseRepo.updateNotification(user, notification))
+                .doOnComplete(() -> getViewState().showListController())
+                .subscribe();
+    }
+
+    public void updateTask(Task task, String text) {
+        task.setText(text);
+        preferencesRepo
+                .getCurrentLogin()
+                .flatMap(login -> databaseRepo.getUser(login))
+                .flatMapCompletable(user -> databaseRepo.updateTask(user, task))
+                .doOnComplete(() -> getViewState().showListController())
                 .subscribe();
     }
 }

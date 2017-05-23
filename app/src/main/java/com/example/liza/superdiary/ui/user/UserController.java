@@ -18,6 +18,7 @@ import static com.example.liza.superdiary.ui.list.ListController.LIST_CONTROLLER
 import static com.example.liza.superdiary.ui.list.ListController.NOTES;
 import static com.example.liza.superdiary.ui.list.ListController.NOTIFICATIONS;
 import static com.example.liza.superdiary.ui.list.ListController.TASKS;
+import static com.example.liza.superdiary.ui.main.MainActivity.ANIM_LENGTH;
 
 /**
  * Created by User on 15.05.2017.
@@ -45,14 +46,14 @@ public class UserController extends MoxyController implements UserView {
     private void showListController(int type) {
         getRouter().pushController(RouterTransaction.with(new ListController(type))
                 .tag(LIST_CONTROLLER)
-                .pushChangeHandler(new FadeChangeHandler())
-                .popChangeHandler(new FadeChangeHandler()));
+                .pushChangeHandler(new FadeChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new FadeChangeHandler(ANIM_LENGTH)));
     }
 
     @Override
     public void showStartController() {
         getRouter().setRoot(RouterTransaction.with(new StartController())
-                .pushChangeHandler(new HorizontalChangeHandler())
-                .popChangeHandler(new HorizontalChangeHandler()));
+                .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
     }
 }

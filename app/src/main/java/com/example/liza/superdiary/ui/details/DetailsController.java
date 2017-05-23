@@ -37,7 +37,6 @@ public class DetailsController extends MoxyController implements DetailsView {
 
     private static final String KEY_OBJECT = "DetailsController.object";
     private EditText editTextDetailed;
-
     public DetailsController(int type) {
         this(new BundleBuilder(new Bundle())
                 .putInt(KEY_TYPE, type)
@@ -81,14 +80,26 @@ public class DetailsController extends MoxyController implements DetailsView {
         Parcelable parcelable = getArgs().getParcelable(KEY_OBJECT);
         if (parcelable instanceof Note) {
             editTextDetailed.setText(((Note)parcelable).getText());
+            buttonSave.setOnClickListener(v -> detailsPresenter.updateNote(
+                    (Note)parcelable,
+                    editTextDetailed.getText().toString()
+            ));
         }
         if (parcelable instanceof Notification) {
             editTextDetailed.setText(((Notification)parcelable).getText());
             editTextTime.setText(((Notification)parcelable).getTime());
-            editTextTime.setVisibility(View.VISIBLE);
+            buttonSave.setOnClickListener(v -> detailsPresenter.updateNotification(
+                    (Notification)parcelable,
+                    editTextDetailed.getText().toString(),
+                    editTextTime.getText().toString()
+            ));
         }
         if (parcelable instanceof Task) {
             editTextDetailed.setText(((Task)parcelable).getText());
+            buttonSave.setOnClickListener(v -> detailsPresenter.updateTask(
+                    (Task)parcelable,
+                    editTextDetailed.getText().toString()
+            ));
         }
 
         switch (getArgs().getInt(KEY_TYPE)) {
@@ -103,36 +114,20 @@ public class DetailsController extends MoxyController implements DetailsView {
                 ));
                 break;
             case NOTIFICATIONS:
+                view.findViewById(R.id.editTextTime).setVisibility(View.VISIBLE);
                 buttonSave.setOnClickListener(v -> detailsPresenter.saveNotification(
                         editTextDetailed.getText().toString(),
                         editTextTime.getText().toString()
                 ));
-                view.findViewById(R.id.editTextTime).setVisibility(View.VISIBLE);
                 break;
         }
     }
 
     @Override
-    public void showListWithNotification(Notification notification) {
+    public void showListController() {
         ((ListController) getRouter()
                 .getControllerWithTag(LIST_CONTROLLER))
-                .showAddedNotification(notification);
-        getRouter().popController(this);
-    }
-
-    @Override
-    public void showListWithNote(Note note) {
-        ((ListController) getRouter()
-                .getControllerWithTag(LIST_CONTROLLER))
-                .showAddedNote(note);
-        getRouter().popController(this);
-    }
-
-    @Override
-    public void showListWithTask(Task task) {
-        ((ListController) getRouter()
-                .getControllerWithTag(LIST_CONTROLLER))
-                .showAddedTask(task);
+                .showUpdated();
         getRouter().popController(this);
     }
 

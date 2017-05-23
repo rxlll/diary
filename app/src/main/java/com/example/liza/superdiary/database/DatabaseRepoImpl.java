@@ -124,4 +124,19 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     public Completable deleteTask(User user, Task task) {
         return Completable.fromAction(() -> taskDao.delete(task));
     }
+
+    @Override
+    public Completable updateNote(User user, Note note) {
+        return Completable.fromAction(() -> noteDao.update(note));
+    }
+
+    @Override
+    public Completable updateNotification(User user, Notification notification) {
+        return Completable.fromAction(() -> notificationDao.update(notification));
+    }
+
+    @Override
+    public Completable updateTask(User user, Task task) {
+        return Completable.fromAction(() -> taskDao.update(task));
+    }
 }

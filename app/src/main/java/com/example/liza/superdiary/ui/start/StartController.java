@@ -14,6 +14,8 @@ import com.example.liza.superdiary.ui.login.LoginController;
 import com.example.liza.superdiary.ui.main.MoxyController;
 import com.example.liza.superdiary.ui.registration.RegistrationController;
 
+import static com.example.liza.superdiary.ui.main.MainActivity.ANIM_LENGTH;
+
 /**
  * Created by User on 15.05.2017.
  */
@@ -43,14 +45,14 @@ public class StartController extends MoxyController implements StartView {
     @Override
     public void showLoginController() {
         getRouter().pushController(RouterTransaction.with(new LoginController())
-                .pushChangeHandler(new HorizontalChangeHandler())
-                .popChangeHandler(new HorizontalChangeHandler()));
+                .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
     }
 
     @Override
     public void showRegistrationController() {
         getRouter().pushController(RouterTransaction.with(new RegistrationController())
-                .pushChangeHandler(new HorizontalChangeHandler())
-                .popChangeHandler(new HorizontalChangeHandler()));
+                .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
     }
 }

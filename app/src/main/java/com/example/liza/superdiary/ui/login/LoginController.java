@@ -14,6 +14,8 @@ import com.example.liza.superdiary.R;
 import com.example.liza.superdiary.ui.main.MoxyController;
 import com.example.liza.superdiary.ui.user.UserController;
 
+import static com.example.liza.superdiary.ui.main.MainActivity.ANIM_LENGTH;
+
 /**
  * Created by User on 15.05.2017.
  */
@@ -39,8 +41,8 @@ public class LoginController extends MoxyController implements LoginView {
     @Override
     public void showUserController() {
         getRouter().setRoot(RouterTransaction.with(new UserController())
-                .pushChangeHandler(new HorizontalChangeHandler())
-                .popChangeHandler(new HorizontalChangeHandler()));
+                .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
     }
 
     @Override

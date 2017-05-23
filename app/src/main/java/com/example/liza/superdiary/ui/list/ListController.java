@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bluelinelabs.conductor.RouterTransaction;
@@ -23,6 +24,12 @@ import com.example.liza.superdiary.ui.main.BundleBuilder;
 import com.example.liza.superdiary.ui.main.MoxyController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
+import static com.example.liza.superdiary.ui.main.MainActivity.ANIM_LENGTH;
 
 /**
  * Created by User on 17.05.2017.
@@ -34,9 +41,9 @@ public class ListController extends MoxyController implements ListView {
     public ListPresenter listPresenter;
 
     public static final String KEY_TYPE = "UserController.type";
-    public static final int NOTES = 0;
-    public static final int NOTIFICATIONS = 1;
-    public static final int TASKS = 2;
+    public static final int NOTES = 1;
+    public static final int NOTIFICATIONS = 2;
+    public static final int TASKS = 3;
     public static final String LIST_CONTROLLER = "ListController";
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerAdapter;
@@ -70,8 +77,8 @@ public class ListController extends MoxyController implements ListView {
         view.findViewById(R.id.fab).setOnClickListener(view1 ->
                 getRouter().pushController(RouterTransaction
                         .with(new DetailsController(type))
-                        .pushChangeHandler(new HorizontalChangeHandler(150))
-                        .popChangeHandler(new HorizontalChangeHandler(150))));
+                        .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                        .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))));
     }
 
     @Override
@@ -84,14 +91,11 @@ public class ListController extends MoxyController implements ListView {
                 .setOnNoteClickListener(note ->
                         getRouter().pushController(RouterTransaction
                                 .with(new DetailsController(note))
-                                .pushChangeHandler(new HorizontalChangeHandler())
-                                .popChangeHandler(new HorizontalChangeHandler())));
+                                .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                                .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))));
         ((NotesRecyclerAdapter) recyclerAdapter)
-                .setOnDeleteClickListener((note, position) -> {
-                    ((NotesRecyclerAdapter) recyclerAdapter)
-                            .deleteFromRecycler(note, position);
-                    listPresenter.deleteFromDatabase(note);
-                });
+                .setOnDeleteClickListener((note, position) ->
+                        listPresenter.deleteFromDatabase(note, position));
     }
 
 
@@ -105,14 +109,11 @@ public class ListController extends MoxyController implements ListView {
                 .setOnNotificationClickListener(notification ->
                         getRouter().pushController(RouterTransaction
                                 .with(new DetailsController(notification))
-                                .pushChangeHandler(new HorizontalChangeHandler())
-                                .popChangeHandler(new HorizontalChangeHandler())));
+                                .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                                .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))));
         ((NotificationsRecyclerAdapter) recyclerAdapter)
-                .setOnDeleteClickListener((notification, position) -> {
-                    ((NotificationsRecyclerAdapter) recyclerAdapter)
-                            .deleteFromRecycler(notification, position);
-                    listPresenter.deleteFromDatabase(notification);
-                });
+                .setOnDeleteClickListener((notification, position) ->
+                        listPresenter.deleteFromDatabase(notification, position));
     }
 
     @Override
@@ -125,27 +126,31 @@ public class ListController extends MoxyController implements ListView {
                 .setOnTaskClickListener(task ->
                         getRouter().pushController(RouterTransaction
                                 .with(new DetailsController(task))
-                                .pushChangeHandler(new HorizontalChangeHandler())
-                                .popChangeHandler(new HorizontalChangeHandler())));
+                                .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
+                                .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))));
         ((TasksRecyclerAdapter) recyclerAdapter)
-                .setOnDeleteClickListener((task, position) -> {
-                    ((TasksRecyclerAdapter) recyclerAdapter).deleteFromRecycler(task, position);
-                    listPresenter.deleteFromDatabase(task);
-                });
+                .setOnDeleteClickListener((task, position) ->
+                        listPresenter.deleteFromDatabase(task, position));
     }
 
     @Override
-    public void showAddedNote(Note note) {
+    public void showUpdated() {
         recyclerAdapter.notifyItemInserted(0);
     }
 
     @Override
-    public void showAddedNotification(Notification notification) {
-        recyclerAdapter.notifyItemInserted(0);
-    }
-
-    @Override
-    public void showAddedTask(Task task) {
-        recyclerAdapter.notifyItemInserted(0);
+    public void showDeleted(int position) {
+        if (recyclerAdapter instanceof NotesRecyclerAdapter) {
+            ((NotesRecyclerAdapter) recyclerAdapter).getNotes().remove(position);
+        } else if (recyclerAdapter instanceof NotificationsRecyclerAdapter) {
+            ((NotificationsRecyclerAdapter) recyclerAdapter).getNotifications().remove(position);
+        } else if (recyclerAdapter instanceof TasksRecyclerAdapter) {
+            ((TasksRecyclerAdapter) recyclerAdapter).getTasks().remove(position);
+        }
+        Completable.fromAction(() -> recyclerAdapter.notifyItemRemoved(position))
+                .delay(300, TimeUnit.MILLISECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> recyclerAdapter.notifyDataSetChanged());
     }
 }

@@ -53,33 +53,32 @@ public class ListPresenter extends MvpPresenter<ListView> {
                             break;
                     }
                 });
-
     }
 
-    void deleteFromDatabase(Note note) {
+    void deleteFromDatabase(Note note, int position) {
         preferencesRepo.getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
                 .flatMapCompletable(user -> databaseRepo.deleteNote(user, note))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(() -> getViewState().showDeleted(position));
     }
 
-    void deleteFromDatabase(Notification notification) {
+    void deleteFromDatabase(Notification notification, int position) {
         preferencesRepo.getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
                 .flatMapCompletable(user -> databaseRepo.deleteNotification(user, notification))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(() -> getViewState().showDeleted(position));
     }
 
-    void deleteFromDatabase(Task task) {
+    void deleteFromDatabase(Task task, int position) {
         preferencesRepo.getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
                 .flatMapCompletable(user -> databaseRepo.deleteTask(user, task))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(() -> getViewState().showDeleted(position));
     }
 }

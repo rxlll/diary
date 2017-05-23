@@ -51,13 +51,13 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
                 onDeleteClickListener.onDeleteClick(notifications.get(position), position));
     }
 
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
     @Override
     public int getItemCount() {
         return notifications.size();
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
     }
 
     public void deleteFromRecycler(Notification notification, int position) {
