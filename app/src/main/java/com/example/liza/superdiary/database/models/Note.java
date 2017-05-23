@@ -1,5 +1,8 @@
 package com.example.liza.superdiary.database.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
@@ -13,7 +16,7 @@ import org.greenrobot.greendao.annotation.Generated;
         indexes = {
                 @Index(value = "id DESC", unique = true)
         })
-public final class Note {
+public final class Note implements Parcelable {
     @Id
     private Long id;
     private String login;
@@ -53,4 +56,34 @@ public final class Note {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.login);
+        dest.writeString(this.text);
+    }
+
+    protected Note(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.login = in.readString();
+        this.text = in.readString();
+    }
+
+    public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
+        @Override
+        public Note createFromParcel(Parcel source) {
+            return new Note(source);
+        }
+
+        @Override
+        public Note[] newArray(int size) {
+            return new Note[size];
+        }
+    };
 }

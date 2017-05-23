@@ -29,9 +29,7 @@ public class ListPresenter extends MvpPresenter<ListView> {
     @Inject
     PreferencesRepo preferencesRepo;
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
+    public ListPresenter() {
         App.appComponent.inject(this);
     }
 

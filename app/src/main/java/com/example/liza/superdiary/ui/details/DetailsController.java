@@ -20,9 +20,10 @@ import static com.example.liza.superdiary.ui.list.ListController.KEY_TYPE;
 
 public class DetailsController extends MoxyController implements DetailsView {
 
-    public static final String KEY_OBJECT = "DetailsController.object";
     @InjectPresenter
     public DetailsPresenter detailsPresenter;
+
+    public static final String KEY_OBJECT = "DetailsController.object";
 
     public DetailsController(int type) {
         this(new BundleBuilder(new Bundle())
