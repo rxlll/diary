@@ -1,10 +1,12 @@
 package com.example.liza.superdiary.ui.details;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -29,9 +31,10 @@ import static com.example.liza.superdiary.ui.list.ListController.TASKS;
 public class DetailsController extends MoxyController implements DetailsView {
 
     @InjectPresenter
-    public DetailsPresenter detailsPresenter;
+    DetailsPresenter detailsPresenter;
 
-    public static final String KEY_OBJECT = "DetailsController.object";
+    private static final String KEY_OBJECT = "DetailsController.object";
+    private EditText editTextDetailed;
 
     public DetailsController(int type) {
         this(new BundleBuilder(new Bundle())
@@ -49,6 +52,18 @@ public class DetailsController extends MoxyController implements DetailsView {
         super(args);
     }
 
+    public DetailsController(Notification notification) {
+        this(new BundleBuilder(new Bundle())
+                .putParcelable(KEY_OBJECT, notification)
+                .build());
+    }
+
+    public DetailsController(Task task) {
+        this(new BundleBuilder(new Bundle())
+                .putParcelable(KEY_OBJECT, task)
+                .build());
+    }
+
     @Override
     protected View inflateView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.controller_details, container, false);
@@ -58,7 +73,7 @@ public class DetailsController extends MoxyController implements DetailsView {
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
         View buttonSave = view.findViewById(R.id.buttonSave);
-        EditText editTextDetailed = (EditText) view.findViewById(R.id.editTextDetailed);
+        editTextDetailed = (EditText) view.findViewById(R.id.editTextDetailed);
         EditText editTextTime = (EditText) view.findViewById(R.id.editTextTime);
         switch (getArgs().getInt(KEY_TYPE)) {
             case NOTES:
@@ -86,7 +101,7 @@ public class DetailsController extends MoxyController implements DetailsView {
         ((ListController) getRouter()
                 .getControllerWithTag(LIST_CONTROLLER))
                 .showAddedNotification(notification);
-        handleBack();
+        getRouter().popController(this);
     }
 
     @Override
@@ -94,7 +109,7 @@ public class DetailsController extends MoxyController implements DetailsView {
         ((ListController) getRouter()
                 .getControllerWithTag(LIST_CONTROLLER))
                 .showAddedNote(note);
-        handleBack();
+        getRouter().popController(this);
     }
 
     @Override
@@ -102,6 +117,18 @@ public class DetailsController extends MoxyController implements DetailsView {
         ((ListController) getRouter()
                 .getControllerWithTag(LIST_CONTROLLER))
                 .showAddedTask(task);
-        handleBack();
+        getRouter().popController(this);
+    }
+
+    @Override
+    protected void onDetach(@NonNull View view) {
+        super.onDetach(view);
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
+        editTextDetailed.setInputType(0);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editTextDetailed.getWindowToken(), 0);
     }
 }

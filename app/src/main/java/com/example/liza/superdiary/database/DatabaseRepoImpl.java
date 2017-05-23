@@ -2,8 +2,11 @@ package com.example.liza.superdiary.database;
 
 import com.example.liza.superdiary.App;
 import com.example.liza.superdiary.database.models.Note;
+import com.example.liza.superdiary.database.models.NoteDao;
 import com.example.liza.superdiary.database.models.Notification;
+import com.example.liza.superdiary.database.models.NotificationDao;
 import com.example.liza.superdiary.database.models.Task;
+import com.example.liza.superdiary.database.models.TaskDao;
 import com.example.liza.superdiary.database.models.User;
 import com.example.liza.superdiary.database.models.UserDao;
 
@@ -20,6 +23,15 @@ public class DatabaseRepoImpl implements DatabaseRepo {
 
     @Inject
     UserDao userDao;
+
+    @Inject
+    TaskDao taskDao;
+
+    @Inject
+    NoteDao noteDao;
+
+    @Inject
+    NotificationDao notificationDao;
 
     public DatabaseRepoImpl() {
         App.appComponent.inject(this);
@@ -68,6 +80,9 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     @Override
     public Completable addNote(User user, Note note) {
         return Completable.fromAction(() -> {
+            note.setLogin(user.getLogin());
+            note.setUserId(user.getId());
+            note.setId(noteDao.insert(note));
             user.getNotes().add(note);
             userDao.update(user);
         });

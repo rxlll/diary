@@ -21,8 +21,8 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
     private OnNotificationClickListener onNotificationClickListener;
     private OnDeleteClickListener onDeleteClickListener;
 
-    public NotificationsRecyclerAdapter(List<Notification> Notifications) {
-        this.notifications = Notifications;
+    public NotificationsRecyclerAdapter(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public NotificationsRecyclerAdapter setOnNotificationClickListener(OnNotificationClickListener onNotificationClickListener) {
@@ -65,12 +65,17 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
         notifyItemInserted(0);
     }
 
+    public void deleteFromRecycler(Notification notification, int position) {
+        notifications.remove(notification);
+        notifyItemRemoved(position);
+    }
+
     public interface OnNotificationClickListener {
-        void onNotificationClick(Notification Notification);
+        void onNotificationClick(Notification notification);
     }
 
     public interface OnDeleteClickListener {
-        void onDeleteClick(Notification Notification, int position);
+        void onDeleteClick(Notification notification, int position);
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {

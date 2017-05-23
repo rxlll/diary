@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bluelinelabs.conductor.RouterTransaction;
-import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler;
+import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler;
 import com.example.liza.superdiary.R;
 import com.example.liza.superdiary.ui.main.MoxyController;
 import com.example.liza.superdiary.ui.user.UserController;
@@ -39,8 +39,8 @@ public class LoginController extends MoxyController implements LoginView {
     @Override
     public void showUserController() {
         getRouter().setRoot(RouterTransaction.with(new UserController())
-                .pushChangeHandler(new VerticalChangeHandler())
-                .popChangeHandler(new VerticalChangeHandler()));
+                .pushChangeHandler(new HorizontalChangeHandler())
+                .popChangeHandler(new HorizontalChangeHandler()));
     }
 
     @Override

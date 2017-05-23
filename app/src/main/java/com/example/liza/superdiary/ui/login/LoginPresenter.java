@@ -34,9 +34,9 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
         databaseRepo.contains(login, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter(b -> {
-                    if (!b) getViewState().showToast("Логин с таким паролем не найден.");
-                    return b;
+                .filter(booleanPredicate -> {
+                    if (!booleanPredicate) getViewState().showToast("Логин с таким паролем не найден.");
+                    return booleanPredicate;
                 })
                 .doOnEvent((b, t) -> preferencesRepo.putCurrentLogin(login).subscribe())
                 .subscribe(b -> getViewState().showUserController());

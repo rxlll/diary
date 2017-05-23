@@ -64,12 +64,17 @@ public class TasksRecyclerAdapter extends RecyclerView.Adapter<TasksRecyclerAdap
         notifyItemInserted(0);
     }
 
+    public void deleteFromRecycler(Task task, int position) {
+        tasks.remove(task);
+        notifyItemRemoved(position);
+    }
+
     public interface OnTaskClickListener {
         void onTaskClick(Task note);
     }
 
     public interface OnDeleteClickListener {
-        void onDeleteClick(Task note, int position);
+        void onDeleteClick(Task task, int position);
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {

@@ -1,9 +1,12 @@
 package com.example.liza.superdiary.database.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by User on 14.05.2017.
@@ -11,9 +14,9 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "notification",
         indexes = {
-                @Index(value = "id DESC", unique = true)
+                @Index(value = "id ASC", unique = true)
         })
-public final class Notification {
+public final class Notification implements Parcelable {
     @Id
     private Long id;
     private String login;
@@ -68,4 +71,36 @@ public final class Notification {
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.login);
+        dest.writeString(this.text);
+        dest.writeString(this.time);
+    }
+
+    protected Notification(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.login = in.readString();
+        this.text = in.readString();
+        this.time = in.readString();
+    }
+
+    public static final Parcelable.Creator<Notification> CREATOR = new Parcelable.Creator<Notification>() {
+        @Override
+        public Notification createFromParcel(Parcel source) {
+            return new Notification(source);
+        }
+
+        @Override
+        public Notification[] newArray(int size) {
+            return new Notification[size];
+        }
+    };
 }

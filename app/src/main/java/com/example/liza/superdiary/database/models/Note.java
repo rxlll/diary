@@ -14,11 +14,12 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "note",
         indexes = {
-                @Index(value = "id DESC", unique = true)
+                @Index(value = "id ASC", unique = true)
         })
 public final class Note implements Parcelable {
     @Id
     private Long id;
+    private Long userId;
     private String login;
     private String text;
 
@@ -26,15 +27,16 @@ public final class Note implements Parcelable {
         this.text = text;
     }
 
-    @Generated(hash = 1303834805)
-    public Note(Long id, String login, String text) {
-        this.id = id;
-        this.login = login;
-        this.text = text;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    @Generated(hash = 1272611929)
-    public Note() {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.login);
+        dest.writeString(this.text);
     }
 
     public Long getId() {
@@ -43,6 +45,14 @@ public final class Note implements Parcelable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getLogin() {
@@ -61,23 +71,24 @@ public final class Note implements Parcelable {
         this.text = text;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
-        dest.writeString(this.login);
-        dest.writeString(this.text);
-    }
-
     protected Note(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.login = in.readString();
         this.text = in.readString();
     }
+
+    @Generated(hash = 650468759)
+    public Note(Long id, Long userId, String login, String text) {
+        this.id = id;
+        this.userId = userId;
+        this.login = login;
+        this.text = text;
+    }
+
+    @Generated(hash = 1272611929)
+    public Note() {
+    }
+
 
     public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
         @Override

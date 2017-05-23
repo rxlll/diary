@@ -7,6 +7,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.Unique;
 
 import java.util.List;
 
@@ -16,12 +17,13 @@ import java.util.List;
 
 @Entity(nameInDb = "user",
         indexes = {
-                @Index(value = "id DESC", unique = true)
+                @Index(value = "id ASC", unique = true)
         })
 public final class User {
 
     @Id
     private Long id;
+    @Unique
     private String login;
     private String password;
     private String name;
@@ -31,16 +33,16 @@ public final class User {
     private String birthday;
     private Boolean isConfirmed;
 
-    @ToMany(referencedJoinProperty = "id")
-    @OrderBy("id DESC")
+    @ToMany(referencedJoinProperty = "userId")
+    @OrderBy("id ASC")
     private List<Note> notes;
 
     @ToMany(referencedJoinProperty = "id")
-    @OrderBy("id DESC")
+    @OrderBy("id ASC")
     private List<Notification> notifications;
 
     @ToMany(referencedJoinProperty = "id")
-    @OrderBy("id DESC")
+    @OrderBy("id ASC")
     private List<Task> tasks;
     /**
      * Used to resolve relations
@@ -52,6 +54,22 @@ public final class User {
      */
     @Generated(hash = 1507654846)
     private transient UserDao myDao;
+
+    public User(String login, String password, String name, String lastname,
+                String patronymic, String email, String birthday) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.lastname = lastname;
+        this.patronymic = patronymic;
+        this.email = email;
+        this.birthday = birthday;
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
     @Generated(hash = 1730148335)
     public User(Long id, String login, String password, String name,
@@ -68,24 +86,8 @@ public final class User {
         this.isConfirmed = isConfirmed;
     }
 
-    public User(String login, String password, String name, String lastname,
-                String patronymic, String email, String birthday) {
-        this.login = login;
-        this.password = password;
-        this.name = name;
-        this.lastname = lastname;
-        this.patronymic = patronymic;
-        this.email = email;
-        this.birthday = birthday;
-    }
-
     @Generated(hash = 586692638)
     public User() {
-    }
-
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
     }
 
     public Long getId() {

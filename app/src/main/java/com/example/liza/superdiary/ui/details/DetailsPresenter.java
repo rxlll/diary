@@ -30,7 +30,7 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
         App.appComponent.inject(this);
     }
 
-    public void saveNotification(String text, String date) {
+    void saveNotification(String text, String date) {
         preferencesRepo
                 .getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
@@ -39,7 +39,7 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                 .subscribe();
     }
 
-    public void saveNote(String text) {
+    void saveNote(String text) {
         preferencesRepo
                 .getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))
@@ -48,7 +48,7 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                 .subscribe();
     }
 
-    public void saveTask(String text) {
+    void saveTask(String text) {
         preferencesRepo
                 .getCurrentLogin()
                 .flatMap(login -> databaseRepo.getUser(login))

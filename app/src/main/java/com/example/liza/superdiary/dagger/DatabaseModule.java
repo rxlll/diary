@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import com.example.liza.superdiary.database.DatabaseRepo;
 import com.example.liza.superdiary.database.DatabaseRepoImpl;
 import com.example.liza.superdiary.database.models.DaoSession;
+import com.example.liza.superdiary.database.models.NoteDao;
+import com.example.liza.superdiary.database.models.NotificationDao;
+import com.example.liza.superdiary.database.models.TaskDao;
 import com.example.liza.superdiary.database.models.UserDao;
 
 import javax.inject.Singleton;
@@ -28,6 +31,24 @@ public class DatabaseModule {
     @Singleton
     public DatabaseRepo provideDatabaseRepo() {
         return new DatabaseRepoImpl();
+    }
+
+    @Provides
+    @Singleton
+    public NoteDao provideNoteDao() {
+        return daoSession.getNoteDao();
+    }
+
+    @Provides
+    @Singleton
+    public NotificationDao provideNotificationDao() {
+        return daoSession.getNotificationDao();
+    }
+
+    @Provides
+    @Singleton
+    public TaskDao provideTaskDao() {
+        return daoSession.getTaskDao();
     }
 
     @Provides

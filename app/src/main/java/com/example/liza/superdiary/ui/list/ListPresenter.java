@@ -5,6 +5,8 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.example.liza.superdiary.App;
 import com.example.liza.superdiary.database.DatabaseRepo;
 import com.example.liza.superdiary.database.models.Note;
+import com.example.liza.superdiary.database.models.Notification;
+import com.example.liza.superdiary.database.models.Task;
 import com.example.liza.superdiary.preferences.PreferencesRepo;
 
 import javax.inject.Inject;
@@ -35,7 +37,7 @@ public class ListPresenter extends MvpPresenter<ListView> {
 
     public void onType(int type) {
         preferencesRepo.getCurrentLogin()
-                .flatMap(s -> databaseRepo.getUser(s))
+                .flatMap(login -> databaseRepo.getUser(login))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user -> {
@@ -55,6 +57,14 @@ public class ListPresenter extends MvpPresenter<ListView> {
     }
 
     public void deleteFromDatabase(Note note) {
+
+    }
+
+    public void deleteFromDatabase(Notification notification) {
+
+    }
+
+    public void deleteFromDatabase(Task task) {
 
     }
 }

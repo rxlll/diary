@@ -7,10 +7,11 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bluelinelabs.conductor.RouterTransaction;
-import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
+import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler;
 import com.example.liza.superdiary.R;
-import com.example.liza.superdiary.ui.main.MoxyController;
 import com.example.liza.superdiary.ui.list.ListController;
+import com.example.liza.superdiary.ui.main.MoxyController;
 import com.example.liza.superdiary.ui.start.StartController;
 
 import static com.example.liza.superdiary.ui.list.ListController.LIST_CONTROLLER;
@@ -44,14 +45,14 @@ public class UserController extends MoxyController implements UserView {
     private void showListController(int type) {
         getRouter().pushController(RouterTransaction.with(new ListController(type))
                 .tag(LIST_CONTROLLER)
-                .pushChangeHandler(new VerticalChangeHandler())
-                .popChangeHandler(new VerticalChangeHandler()));
+                .pushChangeHandler(new FadeChangeHandler())
+                .popChangeHandler(new FadeChangeHandler()));
     }
 
     @Override
     public void showStartController() {
         getRouter().setRoot(RouterTransaction.with(new StartController())
-                .pushChangeHandler(new VerticalChangeHandler())
-                .popChangeHandler(new VerticalChangeHandler()));
+                .pushChangeHandler(new HorizontalChangeHandler())
+                .popChangeHandler(new HorizontalChangeHandler()));
     }
 }

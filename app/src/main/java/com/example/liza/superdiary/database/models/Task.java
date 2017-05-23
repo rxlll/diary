@@ -1,9 +1,12 @@
 package com.example.liza.superdiary.database.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by User on 14.05.2017.
@@ -11,9 +14,9 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "task",
         indexes = {
-                @Index(value = "id DESC", unique = true)
+                @Index(value = "id ASC", unique = true)
         })
-public final class Task {
+public final class Task implements Parcelable {
     @Id
     private Long id;
     private String login;
@@ -57,4 +60,34 @@ public final class Task {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.login);
+        dest.writeString(this.text);
+    }
+
+    protected Task(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.login = in.readString();
+        this.text = in.readString();
+    }
+
+    public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel source) {
+            return new Task(source);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
 }

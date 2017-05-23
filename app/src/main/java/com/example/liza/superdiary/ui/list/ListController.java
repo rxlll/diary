@@ -60,14 +60,16 @@ public class ListController extends MoxyController implements ListView {
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
         int type = getArgs().getInt(KEY_TYPE);
 
         listPresenter.onType(type);
         view.findViewById(R.id.fab).setOnClickListener(view1 ->
                 getRouter().pushController(RouterTransaction.with(new DetailsController(type))
-                        .pushChangeHandler(new HorizontalChangeHandler())
-                        .popChangeHandler(new HorizontalChangeHandler())));
+                        .pushChangeHandler(new HorizontalChangeHandler(150))
+                        .popChangeHandler(new HorizontalChangeHandler(150))));
     }
 
     @Override
@@ -83,27 +85,52 @@ public class ListController extends MoxyController implements ListView {
                                 .popChangeHandler(new HorizontalChangeHandler())));
         ((NotesRecyclerAdapter) recyclerAdapter)
                 .setOnDeleteClickListener((note, position) -> {
-                    ((NotesRecyclerAdapter) recyclerAdapter).getNotes().remove(note);
-                    recyclerAdapter.notifyDataSetChanged();
+                    ((NotesRecyclerAdapter) recyclerAdapter).deleteFromRecycler(note, position);
                     listPresenter.deleteFromDatabase(note);
                 });
-
     }
 
 
     @Override
     public void showRecyclerNotifications(List<Notification> notifications) {
-
+        recyclerAdapter = new NotificationsRecyclerAdapter(notifications);
+        recyclerAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setHasFixedSize(true);
+        ((NotificationsRecyclerAdapter) recyclerAdapter)
+                .setOnNotificationClickListener(notification ->
+                        getRouter().pushController(RouterTransaction.with(new DetailsController(notification))
+                                .pushChangeHandler(new HorizontalChangeHandler())
+                                .popChangeHandler(new HorizontalChangeHandler())));
+        ((NotificationsRecyclerAdapter) recyclerAdapter)
+                .setOnDeleteClickListener((notification, position) -> {
+                    ((NotificationsRecyclerAdapter) recyclerAdapter).deleteFromRecycler(notification, position);
+                    listPresenter.deleteFromDatabase(notification);
+                });
     }
 
     @Override
     public void showRecyclerTasks(List<Task> tasks) {
-
+        recyclerAdapter = new TasksRecyclerAdapter(tasks);
+        recyclerAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setHasFixedSize(true);
+        ((TasksRecyclerAdapter) recyclerAdapter)
+                .setOnTaskClickListener(task ->
+                        getRouter().pushController(RouterTransaction.with(new DetailsController(task))
+                                .pushChangeHandler(new HorizontalChangeHandler())
+                                .popChangeHandler(new HorizontalChangeHandler())));
+        ((TasksRecyclerAdapter) recyclerAdapter)
+                .setOnDeleteClickListener((task, position) -> {
+                    ((TasksRecyclerAdapter) recyclerAdapter).deleteFromRecycler(task, position);
+                    listPresenter.deleteFromDatabase(task);
+                });
     }
 
     @Override
     public void showAddedNote(Note note) {
-        ((NotesRecyclerAdapter) recyclerAdapter).addNote(note);
+        recyclerAdapter.notifyItemInserted(0);
+//        ((NotesRecyclerAdapter) recyclerAdapter).add(note);
     }
 
     @Override
