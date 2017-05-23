@@ -10,6 +10,8 @@ import com.example.liza.superdiary.database.models.TaskDao;
 import com.example.liza.superdiary.database.models.User;
 import com.example.liza.superdiary.database.models.UserDao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
@@ -138,5 +140,10 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     @Override
     public Completable updateTask(User user, Task task) {
         return Completable.fromAction(() -> taskDao.update(task));
+    }
+
+    @Override
+    public Single<List<User>> getUsers() {
+        return Single.fromCallable(() -> userDao.loadAll());
     }
 }

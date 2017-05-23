@@ -5,6 +5,8 @@ import com.example.liza.superdiary.database.models.Notification;
 import com.example.liza.superdiary.database.models.Task;
 import com.example.liza.superdiary.database.models.User;
 
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -40,4 +42,6 @@ public interface DatabaseRepo {
     Completable updateNotification(User user, Notification notification);
 
     Completable updateTask(User user, Task task);
+
+    Single<List<User>> getUsers();
 }

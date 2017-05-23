@@ -39,6 +39,6 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
                     return booleanPredicate;
                 })
                 .doOnEvent((b, t) -> preferencesRepo.putCurrentLogin(login).subscribe())
-                .subscribe(b -> getViewState().showUserController());
+                .subscribe(b -> getViewState().showAuthorizedController(login));
     }
 }

@@ -34,6 +34,5 @@ public class PreferencesRepoImpl implements PreferencesRepo {
     @Override
     public Completable clear() {
         return Completable.fromAction(() -> preferences.edit().clear().apply());
-
     }
 }

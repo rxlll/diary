@@ -10,7 +10,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 @StateStrategyType(SkipStrategy.class)
 public interface LoginView extends MvpView {
-    void showUserController();
+    void showAuthorizedController(String login);
 
 
     void showToast(String s);
