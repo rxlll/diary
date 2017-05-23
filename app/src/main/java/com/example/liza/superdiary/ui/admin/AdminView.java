@@ -19,5 +19,5 @@ public interface AdminView extends MvpView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void showRecycler(List<User> users);
 
-    void showConfirmed(int position);
+    void showConfirmed();
 }

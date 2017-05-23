@@ -38,14 +38,10 @@ public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdap
     @Override
     public void onBindViewHolder(AdminRecyclerAdapter.RecyclerViewHolder holder, int position) {
         holder.textViewLogin.setText(users.get(position).getLogin());
-        holder.imageViewConfirm.setImageResource(users.get(position).getIsConfirmed() ?
-                R.drawable.confirm_active : R.drawable.confirm);
+        holder.imageViewConfirm.setImageResource((users.get(position).getIsConfirmed() != null &&
+                users.get(position).getIsConfirmed()) ? R.drawable.confirm_active : R.drawable.confirm);
         holder.imageViewConfirm.setOnClickListener(view ->
                 onConfirmClickListener.onConfirmClick(users.get(position), position));
-    }
-
-    public List<User> getUsers() {
-        return users;
     }
 
     @Override

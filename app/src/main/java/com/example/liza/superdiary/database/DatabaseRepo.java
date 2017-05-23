@@ -19,7 +19,7 @@ public interface DatabaseRepo {
 
     Single<User> getUser(String login);
 
-    Single<Boolean> contains(String login, String password);
+    Single<User> contains(String login, String password);
 
     Completable deleteUser(User user);
 

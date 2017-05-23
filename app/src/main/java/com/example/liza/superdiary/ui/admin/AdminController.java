@@ -1,6 +1,7 @@
 package com.example.liza.superdiary.ui.admin;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,12 +45,17 @@ public class AdminController extends MoxyController implements AdminView {
 
     @Override
     public void showRecycler(List<User> users) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+
         recyclerAdapter = new AdminRecyclerAdapter(users);
         recyclerAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerAdapter.setOnConfirmClickListener((user, position) ->
-                adminPresenter.confirm(user, position));
+                adminPresenter.confirm(user));
     }
 
     @Override
@@ -60,7 +66,7 @@ public class AdminController extends MoxyController implements AdminView {
     }
 
     @Override
-    public void showConfirmed(int position) {
-        recyclerAdapter.notifyItemInserted(0);
+    public void showConfirmed() {
+        recyclerAdapter.notifyDataSetChanged();
     }
 }

@@ -10,12 +10,15 @@ import com.example.liza.superdiary.database.models.TaskDao;
 import com.example.liza.superdiary.database.models.User;
 import com.example.liza.superdiary.database.models.UserDao;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+
+import static com.example.liza.superdiary.ui.main.MainPresenter.ADMIN;
 
 /**
  * Created by User on 14.05.2017.
@@ -57,12 +60,15 @@ public class DatabaseRepoImpl implements DatabaseRepo {
     }
 
     @Override
-    public Single<Boolean> contains(String login, String password) {
-        return Single.fromCallable(() ->
-                userDao.queryBuilder()
-                        .where(UserDao.Properties.Login.in(login))
-                        .where(UserDao.Properties.Password.in(password))
-                        .count() > 0
+    public Single<User> contains(String login, String password) {
+        return Single.fromCallable(() -> {
+                    User user = userDao.queryBuilder()
+                            .where(UserDao.Properties.Login.in(login))
+                            .where(UserDao.Properties.Password.in(password))
+                            .unique();
+                    if (user == null) return new User();
+                    return user;
+                }
         );
     }
 
@@ -144,6 +150,14 @@ public class DatabaseRepoImpl implements DatabaseRepo {
 
     @Override
     public Single<List<User>> getUsers() {
-        return Single.fromCallable(() -> userDao.loadAll());
+        return Single.fromCallable(() -> {
+            List<User> list = userDao.loadAll();
+            Iterator<User> i = list.iterator();
+            while (i.hasNext()) {
+                User s = i.next();
+                if (s.getLogin().equals(ADMIN)) i.remove();
+            }
+            return list;
+        });
     }
 }

@@ -42,10 +42,10 @@ public class AdminPresenter extends MvpPresenter<AdminView> {
                 .subscribe(() -> getViewState().showStartController());
     }
 
-    public void confirm(User user, int position) {
+    public void confirm(User user) {
         databaseRepo.setConfirmed(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> getViewState().showConfirmed(position));
+                .subscribe(() -> getViewState().showConfirmed());
     }
 }

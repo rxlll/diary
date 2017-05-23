@@ -34,11 +34,18 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
         databaseRepo.contains(login, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter(booleanPredicate -> {
-                    if (!booleanPredicate) getViewState().showToast("Логин с таким паролем не найден.");
-                    return booleanPredicate;
+                .filter(user -> {
+                    if (user.getLogin() == null || user.getLogin().isEmpty()) {
+                        getViewState().showToast("Логин с таким паролем не найден.");
+                        return false;
+                    }
+                    if (user.getIsConfirmed() == null || !user.getIsConfirmed()) {
+                        getViewState().showToast("Ваш аккаунт еще не подтвержден.");
+                        return false;
+                    }
+                    return true;
                 })
-                .doOnEvent((b, t) -> preferencesRepo.putCurrentLogin(login).subscribe())
-                .subscribe(b -> getViewState().showAuthorizedController(login));
+                .doOnEvent((user, throwable) -> preferencesRepo.putCurrentLogin(login).subscribe())
+                .subscribe(user -> getViewState().showAuthorizedController(login));
     }
 }
