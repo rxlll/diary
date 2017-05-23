@@ -32,6 +32,11 @@ public final class Notification {
     public Notification() {
     }
 
+    public Notification(String text, String time) {
+        this.text = text;
+        this.time = time;
+    }
+
     public Long getId() {
         return this.id;
     }

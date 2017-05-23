@@ -18,31 +18,43 @@ public final class Task {
     private Long id;
     private String login;
     private String text;
-@Generated(hash = 659926125)
-public Task(Long id, String login, String text) {
-    this.id = id;
-    this.login = login;
-    this.text = text;
-}
-@Generated(hash = 733837707)
-public Task() {
-}
-public Long getId() {
-    return this.id;
-}
-public void setId(Long id) {
-    this.id = id;
-}
-public String getLogin() {
-    return this.login;
-}
-public void setLogin(String login) {
-    this.login = login;
-}
-public String getText() {
-    return this.text;
-}
-public void setText(String text) {
-    this.text = text;
-}
+
+    public Task(String text) {
+        this.text = text;
+    }
+
+    @Generated(hash = 659926125)
+    public Task(Long id, String login, String text) {
+        this.id = id;
+        this.login = login;
+        this.text = text;
+    }
+
+    @Generated(hash = 733837707)
+    public Task() {
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return this.login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }

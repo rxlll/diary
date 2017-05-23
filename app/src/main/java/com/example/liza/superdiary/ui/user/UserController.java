@@ -13,6 +13,7 @@ import com.example.liza.superdiary.ui.main.MoxyController;
 import com.example.liza.superdiary.ui.list.ListController;
 import com.example.liza.superdiary.ui.start.StartController;
 
+import static com.example.liza.superdiary.ui.list.ListController.LIST_CONTROLLER;
 import static com.example.liza.superdiary.ui.list.ListController.NOTES;
 import static com.example.liza.superdiary.ui.list.ListController.NOTIFICATIONS;
 import static com.example.liza.superdiary.ui.list.ListController.TASKS;
@@ -34,14 +35,15 @@ public class UserController extends MoxyController implements UserView {
     @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
-        view.findViewById(R.id.buttonNotes).setOnClickListener(view1 -> showRecyclerController(NOTES));
-        view.findViewById(R.id.buttonNotifications).setOnClickListener(view1 -> showRecyclerController(NOTIFICATIONS));
-        view.findViewById(R.id.buttonTasks).setOnClickListener(view1 -> showRecyclerController(TASKS));
+        view.findViewById(R.id.buttonNotes).setOnClickListener(view1 -> showListController(NOTES));
+        view.findViewById(R.id.buttonNotifications).setOnClickListener(view1 -> showListController(NOTIFICATIONS));
+        view.findViewById(R.id.buttonTasks).setOnClickListener(view1 -> showListController(TASKS));
         view.findViewById(R.id.buttonLogout).setOnClickListener(view1 -> userPresenter.logout());
     }
 
-    private void showRecyclerController(int type) {
+    private void showListController(int type) {
         getRouter().pushController(RouterTransaction.with(new ListController(type))
+                .tag(LIST_CONTROLLER)
                 .pushChangeHandler(new VerticalChangeHandler())
                 .popChangeHandler(new VerticalChangeHandler()));
     }

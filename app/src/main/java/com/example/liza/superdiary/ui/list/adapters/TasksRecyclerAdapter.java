@@ -16,21 +16,21 @@ import java.util.List;
  * Created by User on 17.05.2017.
  */
 
-public class RecyclerTasksAdapter extends RecyclerView.Adapter<RecyclerTasksAdapter.RecyclerViewHolder> {
+public class TasksRecyclerAdapter extends RecyclerView.Adapter<TasksRecyclerAdapter.RecyclerViewHolder> {
     private List<Task> tasks;
     private OnTaskClickListener onTaskClickListener;
     private OnDeleteClickListener onDeleteClickListener;
 
-    public RecyclerTasksAdapter(List<Task> tasks) {
+    public TasksRecyclerAdapter(List<Task> tasks) {
         this.tasks = tasks;
     }
 
-    public RecyclerTasksAdapter setOnTaskClickListener(OnTaskClickListener onTaskClickListener) {
+    public TasksRecyclerAdapter setOnTaskClickListener(OnTaskClickListener onTaskClickListener) {
         this.onTaskClickListener = onTaskClickListener;
         return this;
     }
 
-    public RecyclerTasksAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+    public TasksRecyclerAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
         return this;
     }
@@ -42,7 +42,7 @@ public class RecyclerTasksAdapter extends RecyclerView.Adapter<RecyclerTasksAdap
     }
 
     @Override
-    public void onBindViewHolder(RecyclerTasksAdapter.RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(TasksRecyclerAdapter.RecyclerViewHolder holder, int position) {
         holder.textViewPreview.setText(tasks.get(position).getText());
         holder.itemView.setOnClickListener(view ->
                 onTaskClickListener.onTaskClick(tasks.get(position)));
@@ -57,6 +57,11 @@ public class RecyclerTasksAdapter extends RecyclerView.Adapter<RecyclerTasksAdap
     @Override
     public int getItemCount() {
         return tasks.size();
+    }
+
+    public void addTask(Task task) {
+        tasks.add(0, task);
+        notifyItemInserted(0);
     }
 
     public interface OnTaskClickListener {

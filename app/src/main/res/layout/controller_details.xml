@@ -47,9 +47,10 @@
         android:inputType="textShortMessage"
         android:maxLines="1"
         android:singleLine="true"
+        android:visibility="invisible"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/buttonSave"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDetailed"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDetailed" />
 
 </android.support.constraint.ConstraintLayout>

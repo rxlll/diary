@@ -20,4 +20,10 @@ public interface ListView extends MvpView {
     void showRecyclerNotifications(List<Notification> notifications);
 
     void showRecyclerTasks(List<Task> tasks);
+
+    void showAddedNote(Note note);
+
+    void showAddedNotification(Notification notification);
+
+    void showAddedTask(Task task);
 }

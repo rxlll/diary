@@ -16,21 +16,21 @@ import java.util.List;
  * Created by User on 17.05.2017.
  */
 
-public class RecyclerNotificationsAdapter extends RecyclerView.Adapter<RecyclerNotificationsAdapter.RecyclerViewHolder> {
+public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<NotificationsRecyclerAdapter.RecyclerViewHolder> {
     private List<Notification> notifications;
     private OnNotificationClickListener onNotificationClickListener;
     private OnDeleteClickListener onDeleteClickListener;
 
-    public RecyclerNotificationsAdapter(List<Notification> Notifications) {
+    public NotificationsRecyclerAdapter(List<Notification> Notifications) {
         this.notifications = Notifications;
     }
 
-    public RecyclerNotificationsAdapter setOnNotificationClickListener(OnNotificationClickListener onNotificationClickListener) {
+    public NotificationsRecyclerAdapter setOnNotificationClickListener(OnNotificationClickListener onNotificationClickListener) {
         this.onNotificationClickListener = onNotificationClickListener;
         return this;
     }
 
-    public RecyclerNotificationsAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+    public NotificationsRecyclerAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
         return this;
     }
@@ -42,7 +42,7 @@ public class RecyclerNotificationsAdapter extends RecyclerView.Adapter<RecyclerN
     }
 
     @Override
-    public void onBindViewHolder(RecyclerNotificationsAdapter.RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(NotificationsRecyclerAdapter.RecyclerViewHolder holder, int position) {
         holder.textViewPreview.setText(notifications.get(position).getText());
         holder.textViewTime.setText(notifications.get(position).getTime());
         holder.itemView.setOnClickListener(view ->
@@ -58,6 +58,11 @@ public class RecyclerNotificationsAdapter extends RecyclerView.Adapter<RecyclerN
     @Override
     public int getItemCount() {
         return notifications.size();
+    }
+
+    public void addNotification(Notification notification) {
+        notifications.add(0, notification);
+        notifyItemInserted(0);
     }
 
     public interface OnNotificationClickListener {

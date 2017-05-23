@@ -22,6 +22,10 @@ public final class Note implements Parcelable {
     private String login;
     private String text;
 
+    public Note(String text) {
+        this.text = text;
+    }
+
     @Generated(hash = 1303834805)
     public Note(Long id, String login, String text) {
         this.id = id;

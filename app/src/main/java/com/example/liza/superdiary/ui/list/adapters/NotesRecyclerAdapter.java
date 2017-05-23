@@ -16,21 +16,21 @@ import java.util.List;
  * Created by User on 17.05.2017.
  */
 
-public class RecyclerNotesAdapter extends RecyclerView.Adapter<RecyclerNotesAdapter.RecyclerViewHolder> {
+public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdapter.RecyclerViewHolder> {
     private List<Note> notes;
     private OnNoteClickListener onNoteClickListener;
     private OnDeleteClickListener onDeleteClickListener;
 
-    public RecyclerNotesAdapter(List<Note> notes) {
+    public NotesRecyclerAdapter(List<Note> notes) {
         this.notes = notes;
     }
 
-    public RecyclerNotesAdapter setOnNoteClickListener(OnNoteClickListener onNoteClickListener) {
+    public NotesRecyclerAdapter setOnNoteClickListener(OnNoteClickListener onNoteClickListener) {
         this.onNoteClickListener = onNoteClickListener;
         return this;
     }
 
-    public RecyclerNotesAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+    public NotesRecyclerAdapter setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener;
         return this;
     }
@@ -42,7 +42,7 @@ public class RecyclerNotesAdapter extends RecyclerView.Adapter<RecyclerNotesAdap
     }
 
     @Override
-    public void onBindViewHolder(RecyclerNotesAdapter.RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(NotesRecyclerAdapter.RecyclerViewHolder holder, int position) {
         holder.textViewPreview.setText(notes.get(position).getText());
         holder.itemView.setOnClickListener(view ->
                 onNoteClickListener.onNoteClick(notes.get(position)));
@@ -57,6 +57,11 @@ public class RecyclerNotesAdapter extends RecyclerView.Adapter<RecyclerNotesAdap
     @Override
     public int getItemCount() {
         return notes.size();
+    }
+
+    public void addNote(Note note) {
+        notes.add(0, note);
+        notifyItemInserted(0);
     }
 
     public interface OnNoteClickListener {
