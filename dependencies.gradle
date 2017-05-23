@@ -1,17 +1,22 @@
 ext {
-    supportV = "24.2.1"
+    minSdkV = 19
+    compileSdkV = 25
+    targetSdkV = 23
+    buildToolsV = "25.0.2"
+    kotlin_V = "1.1.1"
+    supportV = "25.3.1"
     retrofitV = "2.2.0"
     okhttpV = "3.4.1"
     rxjava = "2.0.1"
     rxPermissionsV = "0.9.2"
     moxyV = "1.4.6"
-    stethoV = "1.4.2"
     conductorV = "2.1.1"
-    constraintV = "1.0.0-alpha9"
+    constraintV = "2.1.1"
     daggerV = "2.10"
     glideV = "3.7.0"
+    stethoV = "1.4.2"
     leakcanaryV = "3.7.0"
-    leakcanaryV = "1.5"
+    firebaseV = "10.0.1"
     junitV = "4.12"
     espressoV = "2.2.2"
     greendaoV = "3.2.2"
