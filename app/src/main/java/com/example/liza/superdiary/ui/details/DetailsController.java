@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.liza.superdiary.R;
@@ -76,6 +77,7 @@ public class DetailsController extends MoxyController implements DetailsView {
         View buttonSave = view.findViewById(R.id.buttonSave);
         editTextDetailed = (EditText) view.findViewById(R.id.editTextDetailed);
         EditText editTextTime = (EditText) view.findViewById(R.id.editTextTime);
+        EditText editTextDate = (EditText) view.findViewById(R.id.editTextDate);
 
         Parcelable parcelable = getArgs().getParcelable(KEY_OBJECT);
         if (parcelable instanceof Note) {
@@ -86,11 +88,15 @@ public class DetailsController extends MoxyController implements DetailsView {
             ));
         }
         if (parcelable instanceof Notification) {
+            view.findViewById(R.id.editTextTime).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.editTextDate).setVisibility(View.VISIBLE);
             editTextDetailed.setText(((Notification)parcelable).getText());
-            editTextTime.setText(((Notification)parcelable).getTime());
+            editTextTime.setText(((Notification)parcelable).getTime().split("\n")[0]);
+            editTextDate.setText(((Notification)parcelable).getTime().split("\n")[1]);
             buttonSave.setOnClickListener(v -> detailsPresenter.updateNotification(
                     (Notification)parcelable,
                     editTextDetailed.getText().toString(),
+                    editTextDate.getText().toString(),
                     editTextTime.getText().toString()
             ));
         }
@@ -102,7 +108,7 @@ public class DetailsController extends MoxyController implements DetailsView {
             ));
         }
 
-        switch (getArgs().getInt(KEY_TYPE)) {
+        else switch (getArgs().getInt(KEY_TYPE)) {
             case NOTES:
                 buttonSave.setOnClickListener(v -> detailsPresenter.saveNote(
                         editTextDetailed.getText().toString()
@@ -115,12 +121,19 @@ public class DetailsController extends MoxyController implements DetailsView {
                 break;
             case NOTIFICATIONS:
                 view.findViewById(R.id.editTextTime).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.editTextDate).setVisibility(View.VISIBLE);
                 buttonSave.setOnClickListener(v -> detailsPresenter.saveNotification(
                         editTextDetailed.getText().toString(),
+                        editTextDate.getText().toString(),
                         editTextTime.getText().toString()
                 ));
                 break;
         }
+    }
+
+    @Override
+    public void showToast(String s) {
+        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
     }
 
     @Override

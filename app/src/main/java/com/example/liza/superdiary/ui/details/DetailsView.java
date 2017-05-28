@@ -11,4 +11,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 @StateStrategyType(SkipStrategy.class)
 public interface DetailsView extends MvpView {
     void showListController();
+    void showToast(String text);
 }

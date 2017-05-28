@@ -44,6 +44,7 @@ public class DatabaseRepoImpl implements DatabaseRepo {
 
     public Completable addUser(User user) {
         return Completable.fromAction(() -> {
+            if (user.getLogin().equals("admin")) user.setIsConfirmed(true);
             if (userDao.queryBuilder()
                     .where(UserDao.Properties.Login.in(user.getLogin()))
                     .count() == 0) userDao.insert(user);
