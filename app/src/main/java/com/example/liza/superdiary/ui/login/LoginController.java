@@ -44,6 +44,7 @@ public class LoginController extends MoxyController implements LoginView {
     public void showAuthorizedController(String login) {
         if (login.equals(MainPresenter.ADMIN))
             getRouter().setRoot(RouterTransaction.with(new AdminController())
+                    .tag("admin")
                     .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
                     .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
         else

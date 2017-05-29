@@ -21,7 +21,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     public MainPresenter mainPresenter;
 
     public static final int ANIM_LENGTH = 150;
-    private Router router;
+    public Router router;
     private View container;
 
     @Override
@@ -56,7 +56,12 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void showAdminController() {
         router.setRoot(RouterTransaction.with(new AdminController())
+                .tag("admin")
                 .pushChangeHandler(new FadeChangeHandler(ANIM_LENGTH))
                 .popChangeHandler(new FadeChangeHandler(ANIM_LENGTH)));
+    }
+
+    public String getVisibleControllerName() {
+        return ((AdminController) router.getControllerWithTag("admin")).getClass().getSimpleName();
     }
 }
