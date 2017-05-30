@@ -12,6 +12,8 @@ import com.bluelinelabs.conductor.RouterTransaction;
 import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 import com.example.liza.superdiary.R;
 import com.example.liza.superdiary.ui.admin.AdminController;
+import com.example.liza.superdiary.ui.login.LoginController;
+import com.example.liza.superdiary.ui.registration.RegistrationController;
 import com.example.liza.superdiary.ui.start.StartController;
 import com.example.liza.superdiary.ui.user.UserController;
 
@@ -42,6 +44,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     @Override
     public void showStartController() {
         router.setRoot(RouterTransaction.with(new StartController())
+                .tag("start")
                 .pushChangeHandler(new FadeChangeHandler(ANIM_LENGTH))
                 .popChangeHandler(new FadeChangeHandler(ANIM_LENGTH)));
     }
@@ -62,6 +65,21 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
     }
 
     public String getVisibleControllerName() {
-        return ((AdminController) router.getControllerWithTag("admin")).getClass().getSimpleName();
+        if (router.getControllerWithTag("user") != null) {
+            return ((UserController) router.getControllerWithTag("user")).getClass().getSimpleName();
+        }
+        if (router.getControllerWithTag("login") != null) {
+            return ((LoginController) router.getControllerWithTag("login")).getClass().getSimpleName();
+        }
+        if (router.getControllerWithTag("admin") != null) {
+            return ((AdminController) router.getControllerWithTag("admin")).getClass().getSimpleName();
+        }
+        if (router.getControllerWithTag("register") != null) {
+            return ((RegistrationController) router.getControllerWithTag("register")).getClass().getSimpleName();
+        }
+        if (router.getControllerWithTag("start") != null) {
+            return ((StartController) router.getControllerWithTag("start")).getClass().getSimpleName();
+        }
+        return null;
     }
 }

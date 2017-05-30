@@ -49,6 +49,7 @@ public class LoginController extends MoxyController implements LoginView {
                     .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
         else
             getRouter().setRoot(RouterTransaction.with(new UserController())
+                    .tag("user")
                     .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
                     .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
 

@@ -32,27 +32,19 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
 
     void saveNotification(String text, String date, String time) {
         try {
-            if (text.length() > 255
-                    || time.length() != 5
-                    || time.split(":").length < 2
-                    || Integer.valueOf(time.split(":")[0]) > 24
-                    || Integer.valueOf(time.split(":")[0]) < 0
-                    || Integer.valueOf(time.split(":")[1]) < 0
-                    || Integer.valueOf(time.split(":")[1]) > 24
-                    || date.split(" ").length > 2
-                    || Integer.valueOf(date.split(" ")[0]) > 31
-                    || Integer.valueOf(date.split(" ")[0]) < 1)
-                getViewState().showToast("Некорректные данные");
-            else preferencesRepo
-                    .getCurrentLogin()
-                    .flatMap(login -> databaseRepo.getUser(login))
-                    .flatMapCompletable(user -> databaseRepo.addNotification(user, new Notification(text, time + "\n" + date)))
-                    .doOnComplete(() -> getViewState().showListController())
-                    .subscribe();
+            if (isAllCorrect(text, date, time))
+                preferencesRepo
+                        .getCurrentLogin()
+                        .flatMap(login -> databaseRepo.getUser(login))
+                        .flatMapCompletable(user -> databaseRepo.addNotification(user, new Notification(text, time + "\n" + date)))
+                        .doOnComplete(() -> getViewState().showListController())
+                        .subscribe();
+            else getViewState().showToast("Некорректные данные");
         } catch (Exception e) {
             getViewState().showToast("Некорректные данные");
         }
     }
+
 
     void saveNote(String text) {
         if (text.length() > 255)
@@ -76,7 +68,7 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                 .subscribe();
     }
 
-    public void updateNote(Note note, String text) {
+    void updateNote(Note note, String text) {
         if (text.length() > 255)
             getViewState().showToast("Превышено максимальное количество символов.");
         else {
@@ -90,20 +82,9 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
         }
     }
 
-    public void updateNotification(Notification notification, String text, String date, String time) {
+    void updateNotification(Notification notification, String text, String date, String time) {
         try {
-            if (text.length() > 255
-                    || time.length() != 5
-                    || time.split(":").length < 2
-                    || Integer.valueOf(time.split(":")[0]) > 24
-                    || Integer.valueOf(time.split(":")[0]) < 0
-                    || Integer.valueOf(time.split(":")[1]) < 0
-                    || Integer.valueOf(time.split(":")[1]) > 24
-                    || date.split(" ").length > 2
-                    || Integer.valueOf(date.split(" ")[0]) > 31
-                    || Integer.valueOf(date.split(" ")[0]) < 1)
-                getViewState().showToast("Некорректные данные");
-            else {
+            if (isAllCorrect(text, date, time)) {
                 notification.setText(text);
                 notification.setTime(time + "\n" + date);
                 preferencesRepo
@@ -112,13 +93,14 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                         .flatMapCompletable(user -> databaseRepo.updateNotification(user, notification))
                         .doOnComplete(() -> getViewState().showListController())
                         .subscribe();
-            }
+            } else getViewState().showToast("Некорректные данные");
+
         } catch (Exception e) {
             getViewState().showToast("Некорректные данные");
         }
     }
 
-    public void updateTask(Task task, String text) {
+    void updateTask(Task task, String text) {
         if (text.length() > 255)
             getViewState().showToast("Превышено максимальное количество символов.");
         else {
@@ -130,5 +112,35 @@ public class DetailsPresenter extends MvpPresenter<DetailsView> {
                     .doOnComplete(() -> getViewState().showListController())
                     .subscribe();
         }
+    }
+
+    private static boolean isAllCorrect(String text, String date, String time) {
+        return (isTextNotEmpty(text)
+                && isTextCorrect(text)
+                && isDateCorrect(date)
+                && isTimeCorrect(time));
+    }
+
+    public static boolean isTimeCorrect(String time) {
+        return (time.length() == 5
+                && (time.split(":").length == 2)
+                && (Integer.valueOf(time.split(":")[0]) < 24)
+                && (Integer.valueOf(time.split(":")[0]) >= 0)
+                && (Integer.valueOf(time.split(":")[1]) >= 0)
+                && (Integer.valueOf(time.split(":")[1]) < 60));
+    }
+
+    public static boolean isDateCorrect(String date) {
+        return (date.split(" ").length == 2)
+                && (Integer.valueOf(date.split(" ")[0]) <= 31)
+                && (date.split(" ")[1].length() >= 3);
+    }
+
+    public static boolean isTextCorrect(String text) {
+        return text.length() <= 255;
+    }
+
+    public static boolean isTextNotEmpty(String text) {
+        return !text.isEmpty();
     }
 }

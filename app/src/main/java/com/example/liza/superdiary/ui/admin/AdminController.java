@@ -61,6 +61,7 @@ public class AdminController extends MoxyController implements AdminView {
     @Override
     public void showStartController() {
         getRouter().setRoot(RouterTransaction.with(new StartController())
+                .tag("start")
                 .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
                 .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
     }

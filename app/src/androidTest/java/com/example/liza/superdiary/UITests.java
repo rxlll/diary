@@ -41,12 +41,9 @@ public class UITests extends ActivityInstrumentationTestCase2<MainActivity> {
     Activity getCurrentActivity() throws Throwable {
         getInstrumentation().waitForIdleSync();
         final Activity[] activity = new Activity[1];
-        runTestOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                java.util.Collection<Activity> activites = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
-                activity[0] = Iterables.getOnlyElement(activites);
-            }
+        runTestOnUiThread(() -> {
+            java.util.Collection<Activity> activites = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
+            activity[0] = Iterables.getOnlyElement(activites);
         });
         return activity[0];
     }
@@ -54,75 +51,107 @@ public class UITests extends ActivityInstrumentationTestCase2<MainActivity> {
     //тесты
 
     //тест является ли данный экран администраторским
-    public void testAdminAuthorization() throws Throwable {
+    public void test1_Registration() throws Throwable {
+        SystemClock.sleep(1000);
+        onView(withId(R.id.buttonRegistration)).perform(click());
+        SystemClock.sleep(300);
+        onView(withId(R.id.editTextLogin)).perform(typeText("user"));
+        onView(withId(R.id.editTextPassword)).perform(typeText("1234"));
+        onView(withId(R.id.editTextName)).perform(typeText("name"));
+        onView(withId(R.id.editTextSurname)).perform(typeText("surname"));
+        onView(withId(R.id.editTextPatronymic)).perform(typeText("patronymic"));
+        onView(withId(R.id.editTextEmail)).perform(typeText("email"));
+        onView(withId(R.id.editTextBirthday)).perform(typeText("22.05.1996"));
+        onView(withId(R.id.buttonRegister)).perform(click());
+        SystemClock.sleep(1000);
+        assertEquals("StartController", ((MainActivity) getCurrentActivity()).getVisibleControllerName());
+    }
+
+    public void test2_RegistrationSameLogin() throws Throwable {
+        SystemClock.sleep(1000);
+        onView(withId(R.id.buttonRegistration)).perform(click());
+        SystemClock.sleep(300);
+        onView(withId(R.id.editTextLogin)).perform(typeText("user"));
+        onView(withId(R.id.editTextPassword)).perform(typeText("1234"));
+        onView(withId(R.id.editTextName)).perform(typeText("name"));
+        onView(withId(R.id.editTextSurname)).perform(typeText("surname"));
+        onView(withId(R.id.editTextPatronymic)).perform(typeText("patronymic"));
+        onView(withId(R.id.editTextEmail)).perform(typeText("email"));
+        onView(withId(R.id.editTextBirthday)).perform(typeText("22.05.1996"));
+        onView(withId(R.id.buttonRegister)).perform(click());
+        SystemClock.sleep(1000);
+        assertEquals("RegistrationController", ((MainActivity) getCurrentActivity()).getVisibleControllerName());
+    }
+
+    public void test3_LoginWithWrongPassword() throws Throwable {
+        SystemClock.sleep(1000);
+        onView(withId(R.id.buttonGoLogin)).perform(click());
+        SystemClock.sleep(1000);
+        onView(withId(R.id.editTextLogin)).perform(typeText("user"));
+        onView(withId(R.id.editTextPassword)).perform(typeText("frg46r3r4fg"));
         onView(withId(R.id.buttonLogin)).perform(click());
+        SystemClock.sleep(1000);
+        assertEquals("LoginController", ((MainActivity) getCurrentActivity()).getVisibleControllerName());
+    }
+
+    public void test4_AdminAuthorization() throws Throwable {
+        SystemClock.sleep(1000);
+        onView(withId(R.id.buttonGoLogin)).perform(click());
         SystemClock.sleep(1000);
         onView(withId(R.id.editTextLogin)).perform(typeText("admin"));
         onView(withId(R.id.editTextPassword)).perform(typeText("admin"));
         onView(withId(R.id.buttonLogin)).perform(click());
         SystemClock.sleep(1000);
-        assertEquals("AdminController", ((MainActivity)getCurrentActivity()).getVisibleControllerName());
+        assertEquals("AdminController", ((MainActivity) getCurrentActivity()).getVisibleControllerName());
     }
 
-    //тест на авторизацию админа
-//    public void test_2_AuthorizationAdmin() throws Exception {
-//        onView(withId(R.id.fragmentLogin_tvLogin)).perform(typeText("admin"));
-////        onView(withId(R.id.fragmentLogin_tvPassword)).perform(click());
-//        onView(withId(R.id.fragmentLogin_tvPassword)).perform(typeText("1234"));
-//        onView(withId(R.id.fragmentLogin_btnLogin)).perform(click());
-//        String currentActivity = null;
-//        try {
-//            currentActivity = getCurrentActivity().getClass().getSimpleName();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//        assertEquals("AdminActivity", currentActivity);
-//
-//    }
-//
-//    //тест на добавление записи в БД
-//    public void test_3_Registration() throws Exception {
-//        onView(withId(R.id.fragmentLogin_btnRegister)).perform(click());
-//        onView(withId(R.id.fragmentRegister_tvLogin)).perform(typeText(login));
-//        onView(withId(R.id.fragmentRegister_tvPassword)).perform(typeText("1111"));
-//        onView(withId(R.id.fragmentRegister_tvName)).perform(typeText("Elizaveta"));
-//        onView(withId(R.id.fragmentRegister_tvMidname)).perform(typeText("Aleksandrovna"));
-//
-//        onView(withId(R.id.fragmentRegister_tvEmail)).perform(scrollTo());
-//
-//        onView(withId(R.id.fragmentRegister_tvLastname)).perform(typeText("Ageeva"));
-//        onView(withId(R.id.fragmentRegister_tvEmail)).perform(typeText("liza@mail.ru"));
-//
-//        onView(withId(R.id.fragmentRegister_btnRegister)).perform(scrollTo());
-//
-//        onView(withId(R.id.fragmentRegister_tvBirthday)).perform(typeText("22.05.1996"));
-//        onView(withId(R.id.fragmentRegister_btnRegister)).perform(click());
-//
-//        DBMain dbMain = new DBMain();
-//        try {
-//            dbMain = DBSingletone.getHelper().getDbMainDAO().queryForId(login);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        //чтобы сломать
-////        dbMain = null;
-//        assertNotSame(null, dbMain);
-//
-//    }
-//
-//    //тест на авторизацию пользователя
-//    public void test_4_AuthorizationUser() throws Exception {
-//        onView(withId(R.id.fragmentLogin_tvLogin)).perform(typeText(login));
-//        onView(withId(R.id.fragmentLogin_tvPassword)).perform(typeText("1111"));
-//        onView(withId(R.id.fragmentLogin_btnLogin)).perform(click());
-//        String currentActivity = null;
-//        try {
-//            currentActivity = getCurrentActivity().getClass().getSimpleName();
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//        assertEquals("UserActivity", currentActivity);
-//
-//    }
+    public void test5_ConfirmUser() throws Throwable {
+        SystemClock.sleep(2000);
+        onView(withId(R.id.imageViewConfirm)).perform(click());
+        boolean isConfirmed = true;
+        SystemClock.sleep(1500);
+        onView(withId(R.id.buttonLogout)).perform(click());
+        assertTrue(isConfirmed);
+    }
+
+    public void test6_RegistrationNewLogin() throws Throwable {
+        SystemClock.sleep(1000);
+        onView(withId(R.id.buttonRegistration)).perform(click());
+        SystemClock.sleep(300);
+        onView(withId(R.id.editTextLogin)).perform(typeText("NEW_user"));
+        onView(withId(R.id.editTextPassword)).perform(typeText("1234"));
+        onView(withId(R.id.editTextName)).perform(typeText("name"));
+        onView(withId(R.id.editTextSurname)).perform(typeText("surname"));
+        onView(withId(R.id.editTextPatronymic)).perform(typeText("patronymic"));
+        onView(withId(R.id.editTextEmail)).perform(typeText("email"));
+        onView(withId(R.id.editTextBirthday)).perform(typeText("22.05.1996"));
+        onView(withId(R.id.buttonRegister)).perform(click());
+        SystemClock.sleep(1000);
+        assertEquals("StartController", ((MainActivity) getCurrentActivity()).getVisibleControllerName());
+    }
+
+    public void test7_LoginUnconfirmed() throws Throwable {
+        SystemClock.sleep(1000);
+        onView(withId(R.id.buttonGoLogin)).perform(click());
+        SystemClock.sleep(1000);
+        onView(withId(R.id.editTextLogin)).perform(typeText("NEW_user"));
+        onView(withId(R.id.editTextPassword)).perform(typeText("1234"));
+        onView(withId(R.id.buttonLogin)).perform(click());
+        SystemClock.sleep(1000);
+        assertEquals("LoginController", ((MainActivity) getCurrentActivity()).getVisibleControllerName());
+    }
+
+    public void test8_LoginConfirmed() throws Throwable {
+        SystemClock.sleep(1000);
+        onView(withId(R.id.buttonGoLogin)).perform(click());
+        SystemClock.sleep(1000);
+        onView(withId(R.id.editTextLogin)).perform(typeText("user"));
+        onView(withId(R.id.editTextPassword)).perform(typeText("1234"));
+        onView(withId(R.id.buttonLogin)).perform(click());
+        SystemClock.sleep(1000);
+        assertEquals("UserController", ((MainActivity) getCurrentActivity()).getVisibleControllerName());
+
+    }
+
+
 }

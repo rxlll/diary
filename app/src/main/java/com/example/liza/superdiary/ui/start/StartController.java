@@ -36,7 +36,7 @@ public class StartController extends MoxyController implements StartView {
     @Override
     protected void onViewBound(@NonNull View view) {
         super.onViewBound(view);
-        buttonLogin = (Button) view.findViewById(R.id.buttonLogin);
+        buttonLogin = (Button) view.findViewById(R.id.buttonGoLogin);
         buttonRegistration = (Button) view.findViewById(R.id.buttonRegistration);
         buttonLogin.setOnClickListener(v -> startPresenter.onButtonLoginClick());
         buttonRegistration.setOnClickListener(v -> startPresenter.onButtonRegistrationClick());
@@ -45,6 +45,7 @@ public class StartController extends MoxyController implements StartView {
     @Override
     public void showLoginController() {
         getRouter().pushController(RouterTransaction.with(new LoginController())
+                .tag("login")
                 .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
                 .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
     }
@@ -52,6 +53,7 @@ public class StartController extends MoxyController implements StartView {
     @Override
     public void showRegistrationController() {
         getRouter().pushController(RouterTransaction.with(new RegistrationController())
+                .tag("register")
                 .pushChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH))
                 .popChangeHandler(new HorizontalChangeHandler(ANIM_LENGTH)));
     }

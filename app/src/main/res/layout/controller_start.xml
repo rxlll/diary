@@ -10,25 +10,27 @@
 
 
     <android.support.constraint.Guideline
-        android:layout_width="384dp"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:id="@+id/guideline2"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteY="256dp"
+        tools:layout_editor_absoluteY="284dp"
         tools:layout_editor_absoluteX="0dp"
         app:layout_constraintGuide_percent="0.5" />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonGoLogin"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         android:layout_marginBottom="24dp"
         android:layout_marginStart="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginEnd="24dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Войти" />
+        android:text="Войти"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <Button
         android:text="Зарегистрироваться"
@@ -41,5 +43,7 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        android:id="@+id/buttonRegistration" />
+        android:id="@+id/buttonRegistration"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 </android.support.constraint.ConstraintLayout>

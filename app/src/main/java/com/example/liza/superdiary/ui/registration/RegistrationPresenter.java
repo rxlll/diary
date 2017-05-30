@@ -32,9 +32,8 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnComplete(() -> getViewState().showToast("Ожидайте подтверждения администрации."))
-                    .doOnError(throwable -> getViewState().showToast(throwable.getMessage()))
-                    .onErrorComplete()
-                    .subscribe(() -> getViewState().showStartController());
+                    .subscribe(() -> getViewState().showStartController(),
+                            throwable -> getViewState().showToast(throwable.getMessage()));
         else getViewState().showToast("Проверьте введенные данные.");
     }
 

@@ -43,9 +43,9 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
                         getViewState().showToast("Ваш аккаунт еще не подтвержден.");
                         return false;
                     }
+                    preferencesRepo.putCurrentLogin(login).subscribe();
                     return true;
                 })
-                .doOnEvent((user, throwable) -> preferencesRepo.putCurrentLogin(login).subscribe())
                 .subscribe(user -> getViewState().showAuthorizedController(login));
     }
 }

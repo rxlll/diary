@@ -155,7 +155,7 @@ public final class User {
     }
 
     public Boolean getIsConfirmed() {
-        return this.isConfirmed;
+        return this.isConfirmed != null && isConfirmed;
     }
 
     public void setIsConfirmed(Boolean isConfirmed) {

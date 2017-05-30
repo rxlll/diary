@@ -8,11 +8,14 @@ import com.example.liza.superdiary.database.models.DaoMaster;
 import com.example.liza.superdiary.database.models.DaoSession;
 import com.example.liza.superdiary.database.models.Note;
 import com.example.liza.superdiary.database.models.NoteDao;
+import com.example.liza.superdiary.database.models.Notification;
 import com.example.liza.superdiary.database.models.NotificationDao;
+import com.example.liza.superdiary.database.models.Task;
 import com.example.liza.superdiary.database.models.TaskDao;
 import com.example.liza.superdiary.database.models.User;
 import com.example.liza.superdiary.database.models.UserDao;
 import com.example.liza.superdiary.preferences.PreferencesRepo;
+import com.example.liza.superdiary.ui.details.DetailsPresenter;
 
 import junit.framework.Assert;
 
@@ -79,7 +82,7 @@ public class CodeTests {
     }
 
     @Test
-    public void returnMockAdmin() {
+    public void isAdminInDatabase() {
         //given
         User user = new User();
         user.setId(1L);
@@ -112,6 +115,25 @@ public class CodeTests {
     }
 
     @Test
+    public void userNotConfirmedAfterRegistration() {
+        //given
+        User user = new User();
+        String login = "safa";
+        String password = "sefdgvb";
+        user.setLogin(login);
+        user.setPassword(password);
+
+        //when
+        userDao.insertOrReplace(user);
+
+        //then
+        Assert.assertTrue(userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .where(UserDao.Properties.Password.in(password))
+                .unique().getIsConfirmed() == false);
+    }
+
+    @Test
     public void confirmUser() {
         //given
         String login = "liza";
@@ -131,7 +153,7 @@ public class CodeTests {
     public void addNote() {
         addUser();
         //given
-        String login = "liza";
+        String login = LIZA;
 
         //when
         User user = userDao.queryBuilder()
@@ -146,10 +168,105 @@ public class CodeTests {
         user.getNotes().add(note);
         userDao.update(user);
 
-        //thenuser
+        //then user
         Assert.assertTrue(userDao.queryBuilder()
                 .where(UserDao.Properties.Login.in(login))
                 .unique().getNotes().get(0) != null);
+    }
+
+    @Test
+    public void addTask() {
+        addUser();
+        //given
+        String login = LIZA;
+
+        //when
+        User user = userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique();
+
+        Task task = new Task();
+        task.setLogin(user.getLogin());
+        task.setUserId(user.getId());
+        task.setId(taskDao.insert(task));
+        task.setText("какой-то текст для заметки");
+        user.getTasks().add(task);
+        userDao.update(user);
+
+        //then user
+        Assert.assertTrue(userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique().getTasks().get(0) != null);
+    }
+
+    @Test
+    public void addNotification() {
+        addUser();
+        //given
+        String login = "liza";
+
+        //when
+        User user = userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique();
+
+        Notification notification = new Notification();
+        notification.setLogin(user.getLogin());
+        notification.setUserId(user.getId());
+        notification.setId(notificationDao.insert(notification));
+        notification.setText("какой-то текст для заметки");
+        user.getNotifications().add(notification);
+        userDao.update(user);
+
+        //then user
+        Assert.assertTrue(userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique().getNotifications().get(0) != null);
+    }
+
+    @Test
+    public void addThreeNotes() {
+        addUser();
+        //given
+        String login = LIZA;
+
+        //when
+        User user = userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique();
+        noteDao.queryBuilder()
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
+        user.getNotes().clear();
+        userDao.update(user);
+
+        Note note1 = new Note();
+        note1.setLogin(user.getLogin());
+        note1.setUserId(user.getId());
+        note1.setText("какой-то текст для заметки");
+        noteDao.insert(note1);
+
+        Note note2 = new Note();
+        note2.setLogin(user.getLogin());
+        note2.setUserId(user.getId());
+        note2.setText("какой-то текст для заметки");
+        noteDao.insert(note2);
+
+        Note note3 = new Note();
+        note3.setLogin(user.getLogin());
+        note3.setUserId(user.getId());
+        note3.setText("какой-то текст для заметки");
+        noteDao.insert(note3);
+
+        user.getNotes().add(note1);
+        user.getNotes().add(note2);
+        user.getNotes().add(note3);
+        userDao.update(user);
+
+        //then user
+        Assert.assertTrue(userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique().getNotes().size() == 3);
     }
 
     @Test
@@ -161,7 +278,8 @@ public class CodeTests {
         //when
         userDao.queryBuilder()
                 .where(UserDao.Properties.Login.in(LIZA))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
 
         //then
         Assert.assertTrue(userDao.queryBuilder()
@@ -170,38 +288,173 @@ public class CodeTests {
                 .unique() == null);
     }
 
+    @Test
+    public void updateNote() {
+        //given
+        addNote();
+        String login = LIZA;
 
-//    private ArrayList<Translation> getTestTranslations(){
-//        return new ArrayList<Translation>(){{
-//            add(new Translation());
-//            add(new Translation());
-//            add(new Translation());
-//            add(new Translation());
-//        }};
-//    }
 
-//    @Test
-//    public void saveChanges_ShouldSaveTranslation(){
-//        //given
-//        Translation translation = new Translation();
-//
-//        //when
-//        historyInteractor.saveChanges(translation);
-//
-//        //then
-//        verify(mockHistoryRepository).update(translation);
-//    }
-//
-//    @Test
-//    public void delete_shouldDeleteTranslation(){
-//        //given
-//        Translation translation  = new Translation();
-//
-//        //when
-//        historyInteractor.delete(translation);
-//
-//        //then
-//        verify(mockHistoryRepository).delete(translation);
-//    }
+        //when
+        final String newText = "измененный текст";
+        userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique().getNotes().get(0).setText(newText);
+
+        //then
+        Assert.assertTrue(userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique().getNotes().get(0).getText().equals(newText));
+    }
+
+    @Test
+    public void updateTask() {
+        //given
+        addTask();
+        String login = LIZA;
+
+
+        //when
+        final String newText = "измененный текст";
+        userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique().getTasks()
+                .get(0)
+                .setText(newText);
+
+        //then
+        Assert.assertTrue(userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique()
+                .getTasks()
+                .get(0)
+                .getText()
+                .equals(newText));
+    }
+
+    @Test
+    public void updateNotification() {
+        //given
+        addNotification();
+        String login = LIZA;
+
+
+        //when
+        final String newText = "измененный текст";
+        userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique()
+                .getNotifications()
+                .get(0)
+                .setText(newText);
+
+        //then
+        Assert.assertTrue(userDao.queryBuilder()
+                .where(UserDao.Properties.Login.in(login))
+                .unique()
+                .getNotifications()
+                .get(0)
+                .getText()
+                .equals(newText));
+    }
+
+    @Test
+    public void deleteNote() {
+        //given
+        addNote();
+        String login = LIZA;
+        String text = "какой-то текст для заметки";
+
+
+        //when
+        noteDao.queryBuilder()
+                .where(NoteDao.Properties.Login.in(login))
+                .where(NoteDao.Properties.Text.in(text))
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
+
+        //then
+        Assert.assertTrue(noteDao.queryBuilder()
+                .where(NoteDao.Properties.Login.in(login))
+                .where(NoteDao.Properties.Text.in(text))
+                .unique() == null);
+    }
+
+    @Test
+    public void deleteTask() {
+        //given
+        addTask();
+        String login = LIZA;
+        String text = "какой-то текст для заметки";
+
+
+        //when
+        taskDao.queryBuilder()
+                .where(TaskDao.Properties.Login.in(login))
+                .where(TaskDao.Properties.Text.in(text))
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
+
+        //then
+        Assert.assertTrue(taskDao.queryBuilder()
+                .where(TaskDao.Properties.Login.in(login))
+                .where(TaskDao.Properties.Text.in(text))
+                .unique() == null);
+    }
+
+    @Test
+    public void deleteNotification() {
+        //given
+        addNote();
+        String login = LIZA;
+        String text = "какой-то текст для заметки";
+
+
+        //when
+        notificationDao.queryBuilder()
+                .where(NotificationDao.Properties.Login.in(login))
+                .where(NotificationDao.Properties.Text.in(text))
+                .buildDelete()
+                .executeDeleteWithoutDetachingEntities();
+
+        //then
+        Assert.assertTrue(notificationDao.queryBuilder()
+                .where(NotificationDao.Properties.Login.in(login))
+                .where(NotificationDao.Properties.Text.in(text))
+                .unique() == null);
+    }
+
+    @Test
+    public void isDateCorrect() {
+        String date = "18 июля";
+
+        //then
+        Assert.assertTrue(DetailsPresenter.isDateCorrect(date));
+    }
+
+    @Test
+    public void isTimeCorrect() {
+        String time = "18:30";
+
+        //then
+        Assert.assertTrue(DetailsPresenter.isTimeCorrect(time));
+    }
+
+    @Test
+    public void isTextCorrect() {
+        String text = "Текст";
+
+        //then
+        Assert.assertTrue(DetailsPresenter.isTextCorrect(text));
+    }
+
+    @Test
+    public void isTextNotEmpty() {
+        String text = "Текст";
+
+        //then
+        Assert.assertTrue(DetailsPresenter.isTextNotEmpty(text));
+    }
+
 
 }
